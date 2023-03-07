@@ -1,20 +1,23 @@
-<mxfile host="app.diagrams.net" modified="2023-03-07T16:57:11.827Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36" etag="GcJfkvxSm33EBXjU6_Wv" version="21.0.2" type="github">
+<mxfile host="app.diagrams.net" modified="2023-03-07T17:06:58.220Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36" etag="Fz3NCPkcJc5ZMBmrn7mW" version="21.0.2" type="github">
   <diagram name="Página-1" id="OLqM8g1zS567R2F8B3zY">
     <mxGraphModel dx="1122" dy="470" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="qf9N6m93d-RgQ3LeR_Vi-5" value="Análisis y&amp;nbsp; Seguridad" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="90" y="20" width="110" height="460" as="geometry" />
+        <mxCell id="qf9N6m93d-RgQ3LeR_Vi-5" value="Dep. Análisis y&amp;nbsp; Seguridad" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="170" y="20" width="110" height="460" as="geometry" />
         </mxCell>
-        <mxCell id="qf9N6m93d-RgQ3LeR_Vi-6" value="IT" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="200" y="20" width="110" height="460" as="geometry" />
+        <mxCell id="qf9N6m93d-RgQ3LeR_Vi-6" value="Dep. IT" style="swimlane;whiteSpace=wrap;html=1;startSize=23;" vertex="1" parent="1">
+          <mxGeometry x="280" y="20" width="110" height="460" as="geometry" />
         </mxCell>
-        <mxCell id="qf9N6m93d-RgQ3LeR_Vi-7" value="Directiva" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="310" y="20" width="110" height="460" as="geometry" />
+        <mxCell id="qf9N6m93d-RgQ3LeR_Vi-7" value="Directiva de seguridad" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="390" y="20" width="110" height="460" as="geometry" />
         </mxCell>
         <mxCell id="qf9N6m93d-RgQ3LeR_Vi-8" value="Incibe" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="420" y="20" width="120" height="460" as="geometry" />
+          <mxGeometry x="500" y="20" width="120" height="460" as="geometry" />
+        </mxCell>
+        <mxCell id="qf9N6m93d-RgQ3LeR_Vi-9" value="Sistema de Producción" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="20" width="120" height="460" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
