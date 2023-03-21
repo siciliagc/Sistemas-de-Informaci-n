@@ -8,10 +8,19 @@ def createdb():
         mi_conexion.close()
     except Exception as ex:
         print(ex)
-def inserdb():
+def insertDevices():
     con = sqlite3.connect("ETL_system.db")
     cur = con.cursor()
-    cur.execute("INSERT INTO devices ")
+    cur.execute("INSERT INTO devices VALUES ('')")
+    con.close()
+
+
+def insertAlerts():
+    con = sqlite3.connect("ETL_system.db")
+    cur = con.cursor()
+    cur.execute("INSERT INTO alerts ")
     con.close()
 
 createdb()
+insertAlerts()
+insertDevices()
