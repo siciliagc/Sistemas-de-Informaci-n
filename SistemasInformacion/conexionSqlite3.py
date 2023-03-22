@@ -32,6 +32,6 @@ file.close()
 
 leerPuertos = eval("['8080/TCP', '3306/TCP', '3306/UDP']")
 print(leerPuertos)
-for i in dictDevices:
+#for i in dictDevices:
     #print(i['responsable'])
-    insertDevices((i['id'],i['ip'] ,i['localizacion'],i['responsable']['nombre'],i['responsable']['telefono'],i['responsable']['rol'],str(i['analisis']['puertos_abiertos']),i['analisis']['servicios'],i['analisis']['servicios_inseguros'],i['analisis']['vulnerabilidades_detectadas']))
+    #insertDevices((i['id'],i['ip'],i['localizacion'],i['responsable']['nombre'],i['responsable']['telefono'],i['responsable']['rol'],str(i['analisis']['puertos_abiertos']),i['analisis']['servicios'],i['analisis']['servicios_inseguros'],i['analisis']['vulnerabilidades_detectadas']))
