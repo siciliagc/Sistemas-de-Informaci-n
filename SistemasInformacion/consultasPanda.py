@@ -34,3 +34,18 @@ devices_and_none = createDataframe("devices", ["id", "ip", "localizacion", "resp
 
 
 
+
+#print("Dispositivos missing: ", devices_and_none.count().sum())
+#devices_and_none[devices_and_none['id']==0].count().sum()
+#+ devices_and_none[devices_and_none['ip']==0].count().sum()
+#+ devices_and_none[devices_and_none['localizacion']==0].count().sum()
+#+ devices_and_none[devices_and_none['responsableNombre']==0].count().sum()
+#+ devices_and_none[devices_and_none['responsableTlfn']==0].count().sum()
+#+ devices_and_none[devices_and_none['responsableRol']==0].count().sum()
+#+ devices_and_none[devices_and_none['analisisPuertosAbiertos']==0].count().sum()
+#+ devices_and_none[devices_and_none['analisisServicios']==0].count().sum()
+#+ devices_and_none[devices_and_none['analisisServiviosInseguros']==0].count().sum()
+#+ devices_and_none[devices_and_none['analisisVulnerabilidades']==0].count().sum())
+
+
+

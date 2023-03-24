@@ -10,6 +10,13 @@ def createdb():
         mi_conexion.close()
     except Exception as ex:
         print(ex)
+
+def missingToCero(originalValue):
+    newValue = 0
+    if originalValue != "None":
+        newValue = originalValue
+    return newValue
+
 def insertDevices(variables):
     print(variables)
     con = sqlite3.connect("ETL_system.db")
@@ -37,14 +44,14 @@ def loadJson():
     file.close()
     for i in dictDevices:
         print(i['responsable'])
-        insertDevices((i['id'],i['ip'],i['localizacion'],i['responsable']['nombre'],i['responsable']['telefono'],i['responsable']['rol'],str(i['analisis']['puertos_abiertos']),i['analisis']['servicios'],i['analisis']['servicios_inseguros'],i['analisis']['vulnerabilidades_detectadas']))
+        insertDevices((missingToCero(i['id']),missingToCero(i['ip']),missingToCero(i['localizacion']),missingToCero(i['responsable']['nombre']),missingToCero(i['responsable']['telefono']),missingToCero(i['responsable']['rol']),missingToCero(str(i['analisis']['puertos_abiertos'])),missingToCero(i['analisis']['servicios']),missingToCero(i['analisis']['servicios_inseguros']),missingToCero(i['analisis']['vulnerabilidades_detectadas'])))
 
 
 
 
-createdb()
-loadCsv()
-loadJson()
+#createdb()
+#loadCsv()
+#loadJson()
 
 #leerPuertos = eval("['8080/TCP', '3306/TCP', '3306/UDP']")
 #print(leerPuertos)
