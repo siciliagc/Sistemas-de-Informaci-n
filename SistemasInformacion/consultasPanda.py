@@ -50,7 +50,7 @@ print(f"Desviación estandar de vulnerabilidades detectadas: {df_devices['analis
 # Apartado f: Valor mínimo y valor máximo del total de puertos abiertos
 
 # Tenemos 7 dispositivos, y cada uno tiene un número de puertos abiertos diferentes, almacenados en un array
-# Debemos allar la manera de crear el siguiente dataframe:
+# Debemos hallar la manera de crear el siguiente dataframe:
 # | dispositivo | puerto |
 # | ELK         | 9200   |
 # | ELK         | 80     |
@@ -64,11 +64,115 @@ print(f"Desviación estandar de vulnerabilidades detectadas: {df_devices['analis
 # | 80          | 443    | NaN     |
 # | 443         | NaN    | NaN     |
 
+# Función para obtener los puertos únicamente:
+def obtenerPuertos(tupla):
+    for puerto in tupla:
+        puerto = puerto.split("/")
+        print(puerto[0])  # Esto nos imprime por pantalla el puerto, pero creo que nos puede servir para este apartado :)
+
+
 # Apartado g: Valor mínimo y valor máximo del número de vulnerabilidades detectadas
 print(f"Valor mínimo de vulnerabilidades detectadas: {df_devices['analisisVulnerabilidades'].min()}")
 print(f"Valor máximo de vulnerabilidades detectadas: {df_devices['analisisVulnerabilidades'].max()}")
 
+##############
+# Ejercicio 3#
+##############
+# Agrupación por permisos:
+
+alertas_permisos = df_alerts.groupby('permisos')['clasificacion']
+
+# Agrupación por fecha:
+
+df_alerts['timestamp'] = pd.to_datetime(df_alerts['timestamp'], format='%Y-%m-%d %H:%M:%S')
+
+alertas_julio = df_alerts.loc[(df_alerts['timestamp'].dt.month == 7)]
+alertas_agosto = df_alerts.loc[(df_alerts['timestamp'].dt.month == 8)]
+
+#############
+# APARTADO A#
+#############
+
+# Número de observaciones por permiso:
+print("Número de observaciones para alertas del tipo 1: ", alertas_permisos.sum()[1.0])
+
+print("Número de observaciones para alertas del tipo 2: ", alertas_permisos.sum()[2.0])
+
+print("Número de observaciones para alertas del tipo 3: ", alertas_permisos.sum()[3.0])
+
+# Número de observaciones por fecha:
+# Julio:
+num_obervaciones_julio = alertas_julio.groupby('timestamp')['clasificacion'].count()
+print("Numero observaciones julio: ", num_obervaciones_julio)
+num_obervaciones_agosto = alertas_agosto.groupby('timestamp')['clasificacion'].count()
+
+# Agosto:
+print("Número observaciones agosto: ", num_obervaciones_agosto)
+
+#############
+# APARTADO B#
+#############
 
 
+#############
+# APARTADO C#
+#############
+
+# Por tipo de alerta:
+print("Mediana con alertas del tipo 1: ", alertas_permisos.median()[1.0])
+print("Mediana con alertas del tipo 2: ", alertas_permisos.median()[2.0])
+print("Mediana con alertas del tipo 3: ", alertas_permisos.median()[3.0])
+
+# Por mes:
+print("Mediana con alertas en julio ", alertas_julio.groupby('timestamp')['clasificacion'].median())
+print("Mediana con alertas en agosto: ", alertas_agosto.groupby('timestamp')['clasificacion'].median())
 
 
+#############
+# APARTADO D#
+#############
+# Por tipo de alerta:
+print("Media con alertas del tipo 1: ", alertas_permisos.mean()[1.0])
+print("Media con alertas del tipo 2: ", alertas_permisos.mean()[2.0])
+print("Media con alertas del tipo 3: ", alertas_permisos.mean()[3.0])
+
+# Por mes:
+print("Media con alertas en julio ", alertas_julio.groupby('timestamp')['clasificacion'].mean())
+print("Media con alertas en agosto: ", alertas_agosto.groupby('timestamp')['clasificacion'].mean())
+
+
+#############
+# APARTADO E#
+#############
+# Por tipo de alerta:
+print("Varianza con alertas del tipo 1: ", alertas_permisos.var(ddof=0)[1.0])
+print("Varianza con alertas del tipo 2: ", alertas_permisos.var(ddof=0)[2.0])
+print("Varianza con alertas del tipo 3: ", alertas_permisos.var(ddof=0)[3.0])
+
+# Por mes:
+print("Varianza con alertas en julio ", alertas_julio.groupby('timestamp')['clasificacion'].var(ddof=0))
+print("Varianza con alertas en agosto: ", alertas_agosto.groupby('timestamp')['clasificacion'].var(ddof=0))
+
+
+#############
+# APARTADO F#
+#############
+# Máximos:
+# Por tipo de alerta:
+print("Máximo con alertas del tipo 1: ", alertas_permisos.max()[1.0])
+print("Máximo con alertas del tipo 2: ", alertas_permisos.max()[2.0])
+print("Máximo con alertas del tipo 3: ", alertas_permisos.max()[3.0])
+
+# Por mes:
+print("Máximo con alertas en julio ", alertas_julio.groupby('timestamp')['clasificacion'].max())
+print("Máximo con alertas en agosto: ", alertas_agosto.groupby('timestamp')['clasificacion'].max())
+
+# Mínimos:
+
+print("Mínimo con alertas del tipo 1: ", alertas_permisos.min()[1.0])
+print("Mínimo con alertas del tipo 2: ", alertas_permisos.min()[2.0])
+print("Mínimo con alertas del tipo 3: ", alertas_permisos.min()[3.0])
+
+# Por mes:
+print("Mínimo con alertas en julio ", alertas_julio.groupby('timestamp')['clasificacion'].min())
+print("Mínimo con alertas en agosto: ", alertas_agosto.groupby('timestamp')['clasificacion'].min())
