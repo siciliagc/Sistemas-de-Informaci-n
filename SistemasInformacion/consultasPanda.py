@@ -28,11 +28,27 @@ def createDataframe(table: str, columns: list[str]):
 
 
 # Dataframe para devices:
-devices_and_none = createDataframe("devices", ["id", "ip", "localizacion", "responsableNombre", "responsableTlfn", "responsableRol", "analisisPuertosAbiertos", "analisisServicios", "analisisServiviosInseguros", "analisisVulnerabilidades"])
+#devices_and_none = createDataframe("devices", ["id", "ip", "localizacion", "responsableNombre", "responsableTlfn", "responsableRol", "analisisPuertosAbiertos", "analisisServicios", "analisisServiviosInseguros", "analisisVulnerabilidades"])
 
 # Apartado a: Número de dispositivos (y campos missing o None).
 
+df_devices = pd.read_sql_query("SELECT * from devices", con)
+print(f"Número de dispositivos: {df_devices['id'].unique().size}")
+print(f"Número total de campos incluyendo los missing: {df_devices.count().sum()}")
+df_devices.replace(to_replace=["None"], value=nan, inplace=True)
+print(f"Número total de campos excluyendo los missing: {df_devices.count().sum()}")
+# Apartado b: Número de alertas
+df_alerts = pd.read_sql_query("SELECT * from alerts", con)
+print(f"Número de alertas: {df_alerts['timestamp'].size}")
+#Apartado c: Media
+openPorts = pd.Series(df_devices['analisisPuertosAbiertos'][0])
+print(openPorts)
+size = 14
+for i in range(size):
+    if df_devices['analisisPuertosAbiertos'][i] != nan:
+        new = openPorts.append(pd.Series(df_devices['analisisPuertosAbiertos'][i]))
 
+print(new)
 
 
 #print("Dispositivos missing: ", devices_and_none.count().sum())
