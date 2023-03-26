@@ -12,13 +12,13 @@ def createdb():
         print(ex)
 
 def missingToCero(originalValue):
-    newValue = 0
+    newValue = 'NULL'
     if originalValue != "None":
         newValue = originalValue
     return newValue
 
 def insertDevices(variables):
-    print(variables)
+    #print(variables)
     con = sqlite3.connect("ETL_system.db")
     cur = con.cursor()
     cur.execute('INSERT INTO devices(id,ip,localizacion,responsableNombre,responsableTlfn,responsableRol,analisisPuertosAbiertos,analisisServicios,analisisServiviosInseguros,analisisVulnerabilidades) VALUES (?,?,?,?,?,?,?,?,?,?)',variables)
@@ -43,15 +43,10 @@ def loadJson():
     dictDevices = json.load(file)
     file.close()
     for i in dictDevices:
-        print(i['responsable'])
-        insertDevices((missingToCero(i['id']),missingToCero(i['ip']),missingToCero(i['localizacion']),missingToCero(i['responsable']['nombre']),missingToCero(i['responsable']['telefono']),missingToCero(i['responsable']['rol']),missingToCero(str(i['analisis']['puertos_abiertos'])),missingToCero(i['analisis']['servicios']),missingToCero(i['analisis']['servicios_inseguros']),missingToCero(i['analisis']['vulnerabilidades_detectadas'])))
-
-
-
+        #print(i['responsable'])
+        insertDevices((missingToCero(i['id']), missingToCero(i['ip']), missingToCero(i['localizacion']), missingToCero(i['responsable']['nombre']), missingToCero(i['responsable']['telefono']), missingToCero(i['responsable']['rol']), missingToCero(str(i['analisis']['puertos_abiertos'])), missingToCero(i['analisis']['servicios']), missingToCero(i['analisis']['servicios_inseguros']), missingToCero(i['analisis']['vulnerabilidades_detectadas'])))
 
 #createdb()
-#loadCsv()
 #loadJson()
+#loadCsv()
 
-#leerPuertos = eval("['8080/TCP', '3306/TCP', '3306/UDP']")
-#print(leerPuertos)
