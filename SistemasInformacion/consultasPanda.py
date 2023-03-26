@@ -22,6 +22,7 @@ print(f"Número total de campos, incluyendo missing: {df_devices.isna().count().
 
 # Apartado b: Número de alertas
 df_alerts = pd.read_sql_query("SELECT * from alerts", con)
+"""""
 print(f"Número de alertas: {df_alerts['timestamp'].size}")
 
 # Apartado c: Media y desviación estándar del total de puertos abiertos
@@ -176,3 +177,32 @@ print("Mínimo con alertas del tipo 3: ", alertas_permisos.min()[3.0])
 # Por mes:
 print("Mínimo con alertas en julio ", alertas_julio.groupby('timestamp')['clasificacion'].min())
 print("Mínimo con alertas en agosto: ", alertas_agosto.groupby('timestamp')['clasificacion'].min())
+
+"""
+
+##############
+# Ejercicio 4#
+##############
+
+#############
+# APARTADO A#
+#############
+
+ip_mas_problematicas_df = df_alerts[df_alerts['prioridad']==1]
+ip_mas_problematicas_df = ip_mas_problematicas_df.groupby('origen')['sid'].count().reset_index(name='numero_alertas')
+ip_mas_problematicas_df.sort_values(by=['numero_alertas'],ascending=False, inplace=True)
+ip_mas_problematicas_df.head(10).plot(title='Top 10 direcciones IPs más problemáticas', x="origen", y="numero_alertas", kind="bar")
+plt.show()
+
+#############
+# APARTADO C#
+#############
+
+alertas_por_categoria = df_alerts.groupby('clasificacion')['clasificacion'].count().reset_index(name='numero_alertas')
+alertas_por_categoria.plot(title='Alertas por Categoría', x='clasificacion', y='numero_alertas', kind='bar')
+plt.xticks(fontsize=8)
+plt.show()
+
+#############
+# APARTADO D#
+#############
