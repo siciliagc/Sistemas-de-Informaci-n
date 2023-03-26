@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-03-26T08:19:12.834Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="zhEBGg5LZFiH2xm-qZ4R" version="21.0.10" type="github">
+<mxfile host="app.diagrams.net" modified="2023-03-26T08:24:09.602Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="g7Ct3_PU-VLk0JQXo9MA" version="21.0.10" type="github">
   <diagram id="z1HNoc3UqeWXknCPnFcT" name="Página-2">
-    <mxGraphModel dx="1290" dy="541" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="521" dy="531" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -133,8 +133,8 @@
         <mxCell id="adArxkpM5XN9gFVgzo69-39" value="No, grave" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="R80RbBcRoe1diIursg0G-3" vertex="1">
           <mxGeometry y="650" width="80" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="adArxkpM5XN9gFVgzo69-45" value="No, grave" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="R80RbBcRoe1diIursg0G-3" vertex="1">
-          <mxGeometry x="120" y="580" width="80" height="30" as="geometry" />
+        <mxCell id="adArxkpM5XN9gFVgzo69-45" value="Sí, muy grave" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="R80RbBcRoe1diIursg0G-3" vertex="1">
+          <mxGeometry x="100" y="570" width="100" height="30" as="geometry" />
         </mxCell>
         <mxCell id="adArxkpM5XN9gFVgzo69-48" value="Lista &amp;lt;Activos&amp;gt; Expuestos" style="rounded=0;whiteSpace=wrap;html=1;" parent="R80RbBcRoe1diIursg0G-3" vertex="1">
           <mxGeometry x="-40" y="760" width="90" height="40" as="geometry" />
