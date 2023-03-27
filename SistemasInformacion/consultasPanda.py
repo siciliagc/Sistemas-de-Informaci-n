@@ -75,54 +75,75 @@ def obtenerPuertos(tupla):
 # Apartado g: Valor mínimo y valor máximo del número de vulnerabilidades detectadas
 print(f"Valor mínimo de vulnerabilidades detectadas: {df_devices['analisisVulnerabilidades'].min()}")
 print(f"Valor máximo de vulnerabilidades detectadas: {df_devices['analisisVulnerabilidades'].max()}")
-
+"""
 ##############
 # Ejercicio 3#
 ##############
-# Agrupación por permisos:
 
-alertas_permisos = df_alerts.groupby('permisos')['clasificacion']
+
+# Merge tables:
+
+alerts_devices = pd.read_sql_query("SELECT * FROM alerts JOIN devices ON (alerts.origen = devices.ip OR alerts.destino = devices.ip)", con)
+# Agrupación por permisos:
+alertas_permisos_1 = alerts_devices.loc[alerts_devices['prioridad'] == 1]
+alertas_permisos_2 = alerts_devices.loc[alerts_devices['prioridad'] == 2]
+alertas_permisos_3 = alerts_devices.loc[alerts_devices['prioridad'] == 3]
 
 # Agrupación por fecha:
-
-df_alerts['timestamp'] = pd.to_datetime(df_alerts['timestamp'], format='%Y-%m-%d %H:%M:%S')
-
-alertas_julio = df_alerts.loc[(df_alerts['timestamp'].dt.month == 7)]
-alertas_agosto = df_alerts.loc[(df_alerts['timestamp'].dt.month == 8)]
+alerts_devices['timestamp'] = pd.to_datetime(alerts_devices['timestamp'], format='%Y-%m-%d %H:%M:%S')
+alertas_julio = alerts_devices.loc[(alerts_devices['timestamp'].dt.month == 7)]
+alertas_agosto = alerts_devices.loc[(alerts_devices['timestamp'].dt.month == 8)]
 
 #############
 # APARTADO A#
 #############
 
 # Número de observaciones por permiso:
-print("Número de observaciones para alertas del tipo 1: ", alertas_permisos.sum()[1.0])
 
-print("Número de observaciones para alertas del tipo 2: ", alertas_permisos.sum()[2.0])
+print(f"Número de alertas con prioridad 1: {alertas_permisos_1.__len__()}")
+print(f"Número de alertas con prioridad 2: {alertas_permisos_2.__len__()}")
+print(f"Número de alertas con prioridad 3: {alertas_permisos_3.__len__()}")
 
-print("Número de observaciones para alertas del tipo 3: ", alertas_permisos.sum()[3.0])
 
 # Número de observaciones por fecha:
 # Julio:
-num_obervaciones_julio = alertas_julio.groupby('timestamp')['clasificacion'].count()
-print("Numero observaciones julio: ", num_obervaciones_julio)
-num_obervaciones_agosto = alertas_agosto.groupby('timestamp')['clasificacion'].count()
-
+print(f"Numero observaciones julio: {alertas_julio.__len__()}")
 # Agosto:
-print("Número observaciones agosto: ", num_obervaciones_agosto)
+print(f"Número observaciones agosto: {alertas_agosto.__len__()}")
 
 #############
 # APARTADO B#
 #############
+df_none_alertas_permisos_1 = alertas_permisos_1.loc[alertas_permisos_1['localizacion'] == 'NULL']
+df_none_alertas_permisos_2 = alertas_permisos_2.loc[alertas_permisos_2['localizacion'] == 'NULL']
+df_none_alertas_permisos_3 = alertas_permisos_3.loc[alertas_permisos_3['localizacion'] == 'NULL']
+df_none_julio = alertas_julio.loc[alertas_julio['localizacion'] == 'NULL']
+df_none_agosto = alertas_agosto.loc[alertas_agosto['localizacion'] == 'NULL']
 
+# Número de observaciones none por permiso:
+print("Número de observaciones 'None' para alertas del tipo 1: ", len(df_none_alertas_permisos_1))
+
+print("Número de observaciones 'None' para alertas del tipo 2: ", len(df_none_alertas_permisos_2))
+
+print("Número de observaciones 'None' para alertas del tipo 3: ", len(df_none_alertas_permisos_3))
+
+# Julio:
+num_none_julio = len(df_none_julio.groupby('timestamp')['clasificacion'])
+print("Numero observaciones 'None' julio: ", num_none_julio)
+
+# Agosto:
+
+num_none_agosto = len(df_none_agosto.groupby('timestamp')['clasificacion'])
+print("Número observaciones 'None' agosto: ", num_none_agosto)
 
 #############
 # APARTADO C#
 #############
 
 # Por tipo de alerta:
-print("Mediana con alertas del tipo 1: ", alertas_permisos.median()[1.0])
-print("Mediana con alertas del tipo 2: ", alertas_permisos.median()[2.0])
-print("Mediana con alertas del tipo 3: ", alertas_permisos.median()[3.0])
+print("Mediana con alertas del tipo 1: ", alertas_permisos_1.median())
+print("Mediana con alertas del tipo 2: ", alertas_permisos_2.median())
+print("Mediana con alertas del tipo 3: ", alertas_permisos_3.median())
 
 # Por mes:
 print("Mediana con alertas en julio ", alertas_julio.groupby('timestamp')['clasificacion'].median())
@@ -246,4 +267,4 @@ valores = [puertos_servicios_inseguros, puertos_servicios]
 plt.bar(porcentajes, valores, color=['red', 'blue'])
 plt.ylabel('Valores')
 plt.title('Comparación de porcentajes')
-plt.show()
+plt.show() """
