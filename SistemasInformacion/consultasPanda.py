@@ -85,7 +85,7 @@ print(f"Valor máximo de vulnerabilidades detectadas: {df_devices['analisisVulne
 
 alerts_devices = pd.read_sql_query("SELECT * FROM alerts JOIN devices ON (alerts.origen = devices.ip OR alerts.destino = devices.ip)", con)
 # Agrupación por permisos:
-alertas_permisos_1 = alerts_devices.loc[alerts_devices['prioridad'] == 1]
+alertas_permisos_1 = alerts_devices[alerts_devices['prioridad'] == 1]
 alertas_permisos_2 = alerts_devices.loc[alerts_devices['prioridad'] == 2]
 alertas_permisos_3 = alerts_devices.loc[alerts_devices['prioridad'] == 3]
 
@@ -141,10 +141,23 @@ print("Número observaciones 'None' agosto: ", num_none_agosto)
 #############
 mediana_por_prioridad = alerts_devices.groupby('prioridad')['analisisVulnerabilidades'].median()
 print("Mediana por prioridad: ", mediana_por_prioridad)
+
+media_por_prioridad = alerts_devices.groupby('prioridad')['analisisVulnerabilidades'].mean()
+print("Media por prioridad: ", media_por_prioridad)
+
+varianza_por_prioridad = alerts_devices.groupby('prioridad')['analisisVulnerabilidades'].var(ddof=0)
+print("Varianza por prioridad: ", varianza_por_prioridad)
+
+max_por_prioridad = alerts_devices.groupby('prioridad')['analisisVulnerabilidades'].max()
+print("Max por prioridad: ", max_por_prioridad)
+
+min_por_prioridad = alerts_devices.groupby('prioridad')['analisisVulnerabilidades'].min()
+print("Min por prioridad: ", min_por_prioridad)
+
+
 # Por tipo de alerta:
-#print("Mediana con alertas del tipo 1: ", alertas_permisos_1.median())
-#print("Mediana con alertas del tipo 2: ", alertas_permisos_2.median())
-#print("Mediana con alertas del tipo 3: ", alertas_permisos_3.median())
+
+
 
 # Por mes:
 print("Mediana con alertas en julio ", alertas_julio.groupby('timestamp')['clasificacion'].median())
@@ -268,4 +281,4 @@ valores = [puertos_servicios_inseguros, puertos_servicios]
 plt.bar(porcentajes, valores, color=['red', 'blue'])
 plt.ylabel('Valores')
 plt.title('Comparación de porcentajes')
-plt.show() """
+plt.show()"""
