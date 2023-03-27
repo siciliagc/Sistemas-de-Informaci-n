@@ -22,7 +22,7 @@ print(f"Número total de campos, incluyendo missing: {df_devices.isna().count().
 
 # Apartado b: Número de alertas
 df_alerts = pd.read_sql_query("SELECT * from alerts", con)
-"""""
+"""
 print(f"Número de alertas: {df_alerts['timestamp'].size}")
 
 # Apartado c: Media y desviación estándar del total de puertos abiertos
@@ -206,3 +206,31 @@ plt.show()
 #############
 # APARTADO D#
 #############
+
+dispositivos_vulnerables = pd.read_sql_query("SELECT id, SUM(analisisServiviosInseguros + analisisVulnerabilidades) as numero_vulnerabilidades FROM DEVICES GROUP BY id ORDER BY numero_vulnerabilidades ",con)
+vulnerabilidades = dispositivos_vulnerables['numero_vulnerabilidades'].tolist()
+etiquetas = dispositivos_vulnerables['id'].tolist()
+plt.pie(vulnerabilidades, labels=etiquetas, colors=['red', 'blue', 'pink', 'green', 'yellow', 'purple', 'gray'], autopct='%1.1f%%')
+plt.axis('equal')
+plt.title('Dispositivos más Vulnerables')
+plt.show()
+
+#############
+# APARTADO E#
+#############
+
+puertos_abiertos = df_devices['analisisPuertosAbiertos']
+total_puertos_abiertos = puertos_abiertos.str.count(',') + 1
+media_puertos_abiertos = total_puertos_abiertos.mean()
+servicios_inseguros = sum(df_devices['analisisServiviosInseguros'])
+servicios = sum(df_devices['analisisServicios'])
+
+puertos_servicios_inseguros = int((media_puertos_abiertos/servicios_inseguros)*100)
+puertos_servicios = int((media_puertos_abiertos/servicios)*100)
+
+porcentajes = ['Media Puertos ServiciosInseguros', 'Media Puertos Servicios']
+valores = [puertos_servicios_inseguros, puertos_servicios]
+plt.bar(porcentajes, valores, color=['red', 'blue'])
+plt.ylabel('Valores')
+plt.title('Comparación de porcentajes')
+plt.show()
