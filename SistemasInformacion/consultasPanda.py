@@ -81,7 +81,6 @@ print(f"Valor máximo de vulnerabilidades detectadas: {df_devices['analisisVulne
 ##############
 
 # Merge tables:
-
 alerts_devices = pd.read_sql_query("SELECT * FROM alerts JOIN devices ON (alerts.origen = devices.ip OR alerts.destino = devices.ip)", con)
 # Agrupación por permisos:
 alertas_permisos_1 = alerts_devices[alerts_devices['prioridad'] == 1]
@@ -92,8 +91,6 @@ alertas_permisos_3 = alerts_devices.loc[alerts_devices['prioridad'] == 3]
 alerts_devices['timestamp'] = pd.to_datetime(alerts_devices['timestamp'], format='%Y-%m-%d %H:%M:%S')
 alertas_julio = alerts_devices.loc[(alerts_devices['timestamp'].dt.month == 7)]
 alertas_agosto = alerts_devices.loc[(alerts_devices['timestamp'].dt.month == 8)]
-
-# Agrupación por meses:
 
 
 #############
@@ -202,10 +199,6 @@ print("Mínimo por fecha (Julio): ", min_por_fecha_julio)
 min_por_fecha_agosto = alerts_devices.loc[alerts_devices['timestamp'].dt.month.isin([8]), 'analisisVulnerabilidades'].min()
 print("Mínimo por fecha (Agosto): ", min_por_fecha_agosto)
 
-
-
-"""
-
 ##############
 # Ejercicio 4#
 ##############
@@ -272,4 +265,4 @@ valores = [puertos_servicios_inseguros, puertos_servicios]
 plt.bar(porcentajes, valores, color=['red', 'blue'])
 plt.ylabel('Valores')
 plt.title('Comparación de porcentajes')
-plt.show()"""
+plt.show()
