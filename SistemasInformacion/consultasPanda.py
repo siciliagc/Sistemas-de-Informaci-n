@@ -139,11 +139,12 @@ print("Número observaciones 'None' agosto: ", num_none_agosto)
 #############
 # APARTADO C#
 #############
-
+mediana_por_prioridad = alerts_devices.groupby('prioridad')['analisisVulnerabilidades'].median()
+print("Mediana por prioridad: ", mediana_por_prioridad)
 # Por tipo de alerta:
-print("Mediana con alertas del tipo 1: ", alertas_permisos_1.median())
-print("Mediana con alertas del tipo 2: ", alertas_permisos_2.median())
-print("Mediana con alertas del tipo 3: ", alertas_permisos_3.median())
+#print("Mediana con alertas del tipo 1: ", alertas_permisos_1.median())
+#print("Mediana con alertas del tipo 2: ", alertas_permisos_2.median())
+#print("Mediana con alertas del tipo 3: ", alertas_permisos_3.median())
 
 # Por mes:
 print("Mediana con alertas en julio ", alertas_julio.groupby('timestamp')['clasificacion'].median())
