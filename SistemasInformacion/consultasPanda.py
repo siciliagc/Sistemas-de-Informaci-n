@@ -80,7 +80,6 @@ print(f"Valor máximo de vulnerabilidades detectadas: {df_devices['analisisVulne
 # Ejercicio 3#
 ##############
 
-
 # Merge tables:
 
 alerts_devices = pd.read_sql_query("SELECT * FROM alerts JOIN devices ON (alerts.origen = devices.ip OR alerts.destino = devices.ip)", con)
@@ -93,6 +92,9 @@ alertas_permisos_3 = alerts_devices.loc[alerts_devices['prioridad'] == 3]
 alerts_devices['timestamp'] = pd.to_datetime(alerts_devices['timestamp'], format='%Y-%m-%d %H:%M:%S')
 alertas_julio = alerts_devices.loc[(alerts_devices['timestamp'].dt.month == 7)]
 alertas_agosto = alerts_devices.loc[(alerts_devices['timestamp'].dt.month == 8)]
+
+# Agrupación por meses:
+
 
 #############
 # APARTADO A#
@@ -132,86 +134,75 @@ num_none_julio = len(df_none_julio.groupby('timestamp')['clasificacion'])
 print("Numero observaciones 'None' julio: ", num_none_julio)
 
 # Agosto:
-
 num_none_agosto = len(df_none_agosto.groupby('timestamp')['clasificacion'])
 print("Número observaciones 'None' agosto: ", num_none_agosto)
 
 #############
 # APARTADO C#
 #############
+# Por prioridad:
 mediana_por_prioridad = alerts_devices.groupby('prioridad')['analisisVulnerabilidades'].median()
 print("Mediana por prioridad: ", mediana_por_prioridad)
 
-media_por_prioridad = alerts_devices.groupby('prioridad')['analisisVulnerabilidades'].mean()
-print("Media por prioridad: ", media_por_prioridad)
-
-varianza_por_prioridad = alerts_devices.groupby('prioridad')['analisisVulnerabilidades'].var(ddof=0)
-print("Varianza por prioridad: ", varianza_por_prioridad)
-
-max_por_prioridad = alerts_devices.groupby('prioridad')['analisisVulnerabilidades'].max()
-print("Max por prioridad: ", max_por_prioridad)
-
-min_por_prioridad = alerts_devices.groupby('prioridad')['analisisVulnerabilidades'].min()
-print("Min por prioridad: ", min_por_prioridad)
-
-
-# Por tipo de alerta:
-
-
-
-# Por mes:
-print("Mediana con alertas en julio ", alertas_julio.groupby('timestamp')['clasificacion'].median())
-print("Mediana con alertas en agosto: ", alertas_agosto.groupby('timestamp')['clasificacion'].median())
+# Por fecha:
+mediana_por_fecha_julio = alerts_devices.loc[alerts_devices['timestamp'].dt.month.isin([7]), 'analisisVulnerabilidades'].median()
+print("Mediana por fecha (Julio): ", mediana_por_fecha_julio)
+mediana_por_fecha_agosto = alerts_devices.loc[alerts_devices['timestamp'].dt.month.isin([8]), 'analisisVulnerabilidades'].median()
+print("Mediana por fecha (Agosto): ", mediana_por_fecha_agosto)
 
 
 #############
 # APARTADO D#
 #############
-# Por tipo de alerta:
-print("Media con alertas del tipo 1: ", alertas_permisos.mean()[1.0])
-print("Media con alertas del tipo 2: ", alertas_permisos.mean()[2.0])
-print("Media con alertas del tipo 3: ", alertas_permisos.mean()[3.0])
+# Por prioridad
+media_por_prioridad = alerts_devices.groupby('prioridad')['analisisVulnerabilidades'].mean()
+print("Media por prioridad: ", media_por_prioridad)
 
-# Por mes:
-print("Media con alertas en julio ", alertas_julio.groupby('timestamp')['clasificacion'].mean())
-print("Media con alertas en agosto: ", alertas_agosto.groupby('timestamp')['clasificacion'].mean())
+# Por fecha
+media_por_fecha_julio = alerts_devices.loc[alerts_devices['timestamp'].dt.month.isin([7]), 'analisisVulnerabilidades'].mean()
+print("Media por fecha (Julio): ", media_por_fecha_julio)
+media_por_fecha_agosto = alerts_devices.loc[alerts_devices['timestamp'].dt.month.isin([8]), 'analisisVulnerabilidades'].mean()
+print("Media por fecha (Agosto): ", media_por_fecha_agosto)
 
 
 #############
 # APARTADO E#
 #############
-# Por tipo de alerta:
-print("Varianza con alertas del tipo 1: ", alertas_permisos.var(ddof=0)[1.0])
-print("Varianza con alertas del tipo 2: ", alertas_permisos.var(ddof=0)[2.0])
-print("Varianza con alertas del tipo 3: ", alertas_permisos.var(ddof=0)[3.0])
+# Por prioridad:
+varianza_por_prioridad = alerts_devices.groupby('prioridad')['analisisVulnerabilidades'].var(ddof=0)
+print("Varianza por prioridad: ", varianza_por_prioridad)
 
-# Por mes:
-print("Varianza con alertas en julio ", alertas_julio.groupby('timestamp')['clasificacion'].var(ddof=0))
-print("Varianza con alertas en agosto: ", alertas_agosto.groupby('timestamp')['clasificacion'].var(ddof=0))
+# Por fecha:
+varianza_por_fecha_julio = alerts_devices.loc[alerts_devices['timestamp'].dt.month.isin([7]), 'analisisVulnerabilidades'].var(ddof=0)
+print("Varianza por fecha Julio: ", varianza_por_fecha_julio)
+varianza_por_fecha_agosto = alerts_devices.loc[alerts_devices['timestamp'].dt.month.isin([8]), 'analisisVulnerabilidades'].var(ddof=0)
+print("Varianza por fecha Agosto: ", varianza_por_fecha_agosto)
 
 
 #############
 # APARTADO F#
 #############
-# Máximos:
-# Por tipo de alerta:
-print("Máximo con alertas del tipo 1: ", alertas_permisos.max()[1.0])
-print("Máximo con alertas del tipo 2: ", alertas_permisos.max()[2.0])
-print("Máximo con alertas del tipo 3: ", alertas_permisos.max()[3.0])
 
-# Por mes:
-print("Máximo con alertas en julio ", alertas_julio.groupby('timestamp')['clasificacion'].max())
-print("Máximo con alertas en agosto: ", alertas_agosto.groupby('timestamp')['clasificacion'].max())
+# Por prioridad:
 
-# Mínimos:
+max_por_prioridad = alerts_devices.groupby('prioridad')['analisisVulnerabilidades'].max()
+print("Máximo por prioridad: ", max_por_prioridad)
+min_por_prioridad = alerts_devices.groupby('prioridad')['analisisVulnerabilidades'].min()
+print("Mínimo por prioridad: ", min_por_prioridad)
 
-print("Mínimo con alertas del tipo 1: ", alertas_permisos.min()[1.0])
-print("Mínimo con alertas del tipo 2: ", alertas_permisos.min()[2.0])
-print("Mínimo con alertas del tipo 3: ", alertas_permisos.min()[3.0])
+# Máximo por fecha:
+max_por_fecha_julio = alerts_devices.loc[alerts_devices['timestamp'].dt.month.isin([7]), 'analisisVulnerabilidades'].max()
+print("Máximo por fecha (Julio): ", max_por_fecha_julio)
+max_por_fecha_agosto = alerts_devices.loc[alerts_devices['timestamp'].dt.month.isin([8]), 'analisisVulnerabilidades'].max()
+print("Máximo por fecha (Agosto): ", max_por_fecha_agosto)
 
-# Por mes:
-print("Mínimo con alertas en julio ", alertas_julio.groupby('timestamp')['clasificacion'].min())
-print("Mínimo con alertas en agosto: ", alertas_agosto.groupby('timestamp')['clasificacion'].min())
+# Mínimo por fecha:
+min_por_fecha_julio = alerts_devices.loc[alerts_devices['timestamp'].dt.month.isin([7]), 'analisisVulnerabilidades'].min()
+print("Mínimo por fecha (Julio): ", min_por_fecha_julio)
+min_por_fecha_agosto = alerts_devices.loc[alerts_devices['timestamp'].dt.month.isin([8]), 'analisisVulnerabilidades'].min()
+print("Mínimo por fecha (Agosto): ", min_por_fecha_agosto)
+
+
 
 """
 
