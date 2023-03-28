@@ -25,14 +25,16 @@ print(f"Número de alertas: {df_alerts['timestamp'].size}")
 # Apartado c: Media y desviación estándar del total de puertos abiertos
 openPorts = pd.read_sql_query("SELECT analisisPuertosAbiertos as puertosAbiertos from devices", con)
 openPorts.replace(to_replace=["NULL"], value=np.nan, inplace=True)
-openPorts.dropna(inplace=True)
-openPorts.reset_index(drop=True, inplace=True)
-# Obtener el número de puertos de cada registro
-openPorts['num_puertos'] = openPorts['puertosAbiertos'].apply(lambda x: len(re.findall(r'\d+', x)))
+# Obtener el número de puertos abiertos en cada registro
+openPorts['num_puertos'] = openPorts['puertosAbiertos'].fillna('').apply(lambda x: len(re.findall(r'\d+', str(x))))
 # Obtener el protocolo de cada puerto en cada registro
-openPorts['TCP'] = openPorts['puertosAbiertos'].apply(lambda x: len([p for p in eval(x) if 'TCP' in p]))
-openPorts['UDP'] = openPorts['puertosAbiertos'].apply(lambda x: len([p for p in eval(x) if 'UDP' in p]))
-print(openPorts)
+def count_protocols(port_list, protocol):
+    if isinstance(port_list, str):
+        return len([p for p in eval(port_list) if protocol in p])
+    else:
+        return 0
+openPorts['TCP'] = openPorts['puertosAbiertos'].apply(lambda x: count_protocols(x, 'TCP'))
+openPorts['UDP'] = openPorts['puertosAbiertos'].apply(lambda x: count_protocols(x, 'UDP'))
 
 print(f"Media total de puertos abiertos: {openPorts['num_puertos'].mean():.2f}")
 print(f"Desviación estándar total de puertos abiertos: {openPorts['num_puertos'].std():.2f}")
@@ -50,14 +52,19 @@ print(f"Media de vulnerabilidades detectadas: {df_devices['analisisVulnerabilida
 print(f"Desviación estándar de vulnerabilidades detectadas: {df_devices['analisisVulnerabilidades'].std():.2f}")
 
 # Apartado f: Valor mínimo y valor máximo del total de puertos abiertos
-print(f"Valor mínimo total de la cantidad de puertos: {openPorts['num_puertos'].min()}")
-print(f"Valor máximo total de la cantidad de puertos: {openPorts['num_puertos'].max()}")
-print(f"Valor mínimo de la cantidad de puertos bajo TCP: {openPorts['TCP'].min()}")
-print(f"Valor máximo de la cantidad de puertos bajo TCP: {openPorts['TCP'].max()}")
-print(f"Valor mínimo de la cantidad de puertos bajo UDP: {openPorts['UDP'].min()}")
-print(f"Valor máximo de la cantidad de puertos bajo UDP: {openPorts['UDP'].max()}")
-
-
+print(f"Valor mínimo total de la cantidad de puertos abiertos: {openPorts['num_puertos'].min()}")
+print(f"Valor máximo total de la cantidad de puertos abiertos: {openPorts['num_puertos'].max()}")
+print(f"Valor mínimo de la cantidad de puertos abiertos bajo TCP: {openPorts['TCP'].min()}")
+print(f"Valor máximo de la cantidad de puertos abiertos bajo TCP: {openPorts['TCP'].max()}")
+print(f"Valor mínimo de la cantidad de puertos abiertos bajo UDP: {openPorts['UDP'].min()}")
+print(f"Valor máximo de la cantidad de puertos abiertos bajo UDP: {openPorts['UDP'].max()}")
+ports = []
+for value in openPorts['puertosAbiertos'].dropna():
+    match = re.findall(r'\d+', value)
+    if match:
+        ports.extend([int(m) for m in match])
+print(f"El puerto más bajo abierto es el {min(ports)}")
+print(f"El puerto más alto abierto es el {max(ports)}")
 # Apartado g: Valor mínimo y valor máximo del número de vulnerabilidades detectadas
 print(f"Valor mínimo de vulnerabilidades detectadas: {df_devices['analisisVulnerabilidades'].min()}")
 print(f"Valor máximo de vulnerabilidades detectadas: {df_devices['analisisVulnerabilidades'].max()}")

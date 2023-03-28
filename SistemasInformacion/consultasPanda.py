@@ -40,16 +40,6 @@ print(f"Número de alertas: {df_alerts['timestamp'].size}")
 # | 443         | NaN    | NaN     |
 
 # Función para obtener los puertos únicamente:
-def obtenerPuertos(tupla):
-    for puerto in tupla:
-        puerto = puerto.split("/")
-        print(puerto[0])  # Esto nos imprime por pantalla el puerto, pero creo que nos puede servir para este apartado :)
-
-
-# Apartado g: Valor mínimo y valor máximo del número de vulnerabilidades detectadas
-print(f"Valor mínimo de vulnerabilidades detectadas: {df_devices['analisisVulnerabilidades'].min()}")
-print(f"Valor máximo de vulnerabilidades detectadas: {df_devices['analisisVulnerabilidades'].max()}")
-
 ##############
 # Ejercicio 3#
 ##############
@@ -95,9 +85,7 @@ df_none_agosto = alertas_agosto.loc[alertas_agosto['localizacion'] == 'NULL']
 
 # Número de observaciones none por permiso:
 print("Número de observaciones 'None' para alertas del tipo 1: ", len(df_none_alertas_permisos_1))
-
 print("Número de observaciones 'None' para alertas del tipo 2: ", len(df_none_alertas_permisos_2))
-
 print("Número de observaciones 'None' para alertas del tipo 3: ", len(df_none_alertas_permisos_3))
 
 # Julio:
