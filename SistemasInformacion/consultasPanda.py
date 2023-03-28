@@ -172,6 +172,7 @@ ip_mas_problematicas_df = df_alerts[df_alerts['prioridad']==1]
 ip_mas_problematicas_df = ip_mas_problematicas_df.groupby('origen')['sid'].count().reset_index(name='numero_alertas')
 ip_mas_problematicas_df.sort_values(by=['numero_alertas'],ascending=False, inplace=True)
 ip_mas_problematicas_df.head(10).plot(title='Top 10 direcciones IPs más problemáticas', x="origen", y="numero_alertas", kind="bar")
+plt.xticks( rotation=30, ha="right", rotation_mode="anchor")
 plt.show()
 
 #############
@@ -196,6 +197,7 @@ plt.show()
 alertas_por_categoria = df_alerts.groupby('clasificacion')['clasificacion'].count().reset_index(name='numero_alertas')
 alertas_por_categoria.plot(title='Alertas por Categoría', x='clasificacion', y='numero_alertas', kind='bar')
 plt.xticks(fontsize=8)
+plt.xticks( rotation=30, ha="right", rotation_mode="anchor")
 plt.show()
 
 #############
