@@ -20,6 +20,10 @@ print(f"Número total de campos missing: {df_devices.isna().sum().sum()}")
 print(f"Número total de campos excluyendo los missing: {df_devices.count().sum()}")
 print(f"Número total de campos, incluyendo missing: {df_devices.isna().count().sum()}")
 
+# Apartado b: Número de alertas
+df_alerts = pd.read_sql_query("SELECT * from alerts", con)
+print(f"Número de alertas: {df_alerts['timestamp'].size}")
+
 # Tenemos 7 dispositivos, y cada uno tiene un número de puertos abiertos diferentes, almacenados en un array
 # Debemos hallar la manera de crear el siguiente dataframe:
 # | dispositivo | puerto |
