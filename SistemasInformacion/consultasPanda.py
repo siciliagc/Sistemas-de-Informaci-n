@@ -1,6 +1,5 @@
-import hashlib
+import re
 import sqlite3
-from typing import List
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
@@ -182,7 +181,8 @@ plt.show()
 alertastas_tiempo_df = df_alerts.groupby('timestamp')['timestamp'].count().reset_index(name='numero_alertas')
 alertastas_tiempo_df['timestamp'] = pd.to_datetime(alertastas_tiempo_df['timestamp'])
 alertastas_tiempo_df = alertastas_tiempo_df.set_index('timestamp')
-alertastas_tiempo_df.plot(kind='line')
+alertas_por_dia = alertastas_tiempo_df.resample('D').sum()
+plt.plot(alertas_por_dia.index, alertas_por_dia.values)
 plt.xlabel('Fecha')
 plt.ylabel('Número de alertas')
 plt.title('Alertas en el tiempo')
@@ -213,9 +213,11 @@ plt.show()
 # APARTADO E#
 #############
 
-puertos_abiertos = df_devices['analisisPuertosAbiertos']
-total_puertos_abiertos = puertos_abiertos.str.count(',') + 1
-media_puertos_abiertos = total_puertos_abiertos.mean()
+openPorts = pd.read_sql_query("SELECT analisisPuertosAbiertos as puertosAbiertos from devices", con)
+openPorts.replace(to_replace=["NULL"], value=np.nan, inplace=True)
+# Obtener el número de puertos abiertos en cada registro
+openPorts['num_puertos'] = openPorts['puertosAbiertos'].fillna('').apply(lambda x: len(re.findall(r'\d+', str(x))))
+media_puertos_abiertos = openPorts['num_puertos'].mean()
 servicios_inseguros = sum(df_devices['analisisServiviosInseguros'])
 servicios = sum(df_devices['analisisServicios'])
 
