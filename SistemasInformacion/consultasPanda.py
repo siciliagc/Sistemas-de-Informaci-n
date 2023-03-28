@@ -179,7 +179,7 @@ plt.show()
 # APARTADO B#
 #############
 
-alertastas_tiempo_df = df_alerts.groupby('timestamp')['timestamp'].count().reset_index(name='numero_alertas')
+alertastas_tiempo_df = df_alerts.groupby('timestamp')['sid'].count().reset_index(name='numero_alertas')
 alertastas_tiempo_df['timestamp'] = pd.to_datetime(alertastas_tiempo_df['timestamp'])
 alertastas_tiempo_df = alertastas_tiempo_df.set_index('timestamp')
 alertas_por_dia = alertastas_tiempo_df.resample('D').sum()
