@@ -40,8 +40,8 @@ print(f"Media total de puertos abiertos: {openPorts['num_puertos'].mean():.2f}")
 print(f"Desviación estándar total de puertos abiertos: {openPorts['num_puertos'].std():.2f}")
 print(f"Media de puertos abiertos bajo TCP: {openPorts['TCP'].mean():.2f}")
 print(f"Desviación estándar de puertos abiertos bajo TCP: {openPorts['TCP'].std():.2f}")
-print(f"Media de puertos abiertos bajo TCP: {openPorts['UDP'].mean():.2f}")
-print(f"Desviación estándar de puertos abiertos bajo TCP: {openPorts['UDP'].std():.2f}")
+print(f"Media de puertos abiertos bajo UDP: {openPorts['UDP'].mean():.2f}")
+print(f"Desviación estándar de puertos abiertos bajo UDP: {openPorts['UDP'].std():.2f}")
 
 # Apartado d: Media y desviación estándar del número de servicios inseguros detectados
 print(f"Media de servicios inseguros detectados: {df_devices['analisisServiviosInseguros'].mean():.2f}")
