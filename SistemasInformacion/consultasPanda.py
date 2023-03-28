@@ -186,6 +186,7 @@ plt.plot(alertas_por_dia.index, alertas_por_dia.values)
 plt.xlabel('Fecha')
 plt.ylabel('Número de alertas')
 plt.title('Alertas en el tiempo')
+plt.xticks( rotation=30, ha="right", rotation_mode="anchor")
 plt.show()
 
 #############
