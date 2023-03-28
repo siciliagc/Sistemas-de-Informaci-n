@@ -20,36 +20,6 @@ print(f"Número total de campos missing: {df_devices.isna().sum().sum()}")
 print(f"Número total de campos excluyendo los missing: {df_devices.count().sum()}")
 print(f"Número total de campos, incluyendo missing: {df_devices.isna().count().sum()}")
 
-# Apartado b: Número de alertas
-df_alerts = pd.read_sql_query("SELECT * from alerts", con)
-"""
-print(f"Número de alertas: {df_alerts['timestamp'].size}")
-
-# Apartado c: Media y desviación estándar del total de puertos abiertos
-print(df_devices['analisisPuertosAbiertos'])
-print(df_devices.shape)
-openPorts = df_devices.dropna(subset=['analisisPuertosAbiertos'])
-print(openPorts.shape)
-openPorts = openPorts.explode('analisisPuertosAbiertos')
-print(openPorts.shape)
-openPorts = openPorts.reset_index(drop=True)
-openPorts[['puerto', 'protocolo']] = openPorts['analisisPuertosAbiertos'].str.split('/', expand=True)
-openPorts['puerto'] = pd.to_numeric(openPorts['puerto'])
-openPorts.drop('analisisPuertosAbiertos', axis=1, inplace=True)
-
-print(f"Media de puertos abiertos: {openPorts['puerto'].mean()}")
-print(f"Desviación estandar de puertos abiertos: {openPorts['puerto'].std()}")
-
-# Apartado d: Media y desviación estándar del número de servicios inseguros detectados
-print(f"Media de servicios inseguros detectados: {df_devices['analisisServiciosInseguros'].mean()}")
-print(f"Desviación estandar de servicios inseguros detectados: {df_devices['analisisServiciosInseguros'].std()}")
-
-# Apartado e: Media y desviación estándar del número de vulnerabilidades detectadas
-print(f"Media de vulnerabilidades detectadas: {df_devices['analisisVulnerabilidades'].mean()}")
-print(f"Desviación estandar de vulnerabilidades detectadas: {df_devices['analisisVulnerabilidades'].std()}")
-
-# Apartado f: Valor mínimo y valor máximo del total de puertos abiertos
-
 # Tenemos 7 dispositivos, y cada uno tiene un número de puertos abiertos diferentes, almacenados en un array
 # Debemos hallar la manera de crear el siguiente dataframe:
 # | dispositivo | puerto |
@@ -75,7 +45,7 @@ def obtenerPuertos(tupla):
 # Apartado g: Valor mínimo y valor máximo del número de vulnerabilidades detectadas
 print(f"Valor mínimo de vulnerabilidades detectadas: {df_devices['analisisVulnerabilidades'].min()}")
 print(f"Valor máximo de vulnerabilidades detectadas: {df_devices['analisisVulnerabilidades'].max()}")
-"""
+
 ##############
 # Ejercicio 3#
 ##############
