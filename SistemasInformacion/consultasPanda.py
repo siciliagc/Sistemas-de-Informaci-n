@@ -200,9 +200,9 @@ plt.xticks(fontsize=8)
 plt.xticks( rotation=30, ha="right", rotation_mode="anchor")
 plt.show()
 
-#############
-# APARTADO D#
-#############
+##############
+# APARTADO D #
+##############
 
 dispositivos_vulnerables = pd.read_sql_query("SELECT id, SUM(analisisServiviosInseguros + analisisVulnerabilidades) as numero_vulnerabilidades FROM DEVICES GROUP BY id ORDER BY numero_vulnerabilidades ",con)
 vulnerabilidades = dispositivos_vulnerables['numero_vulnerabilidades'].tolist()
