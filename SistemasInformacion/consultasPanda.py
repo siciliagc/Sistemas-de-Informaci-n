@@ -206,6 +206,7 @@ plt.show()
 
 dispositivos_vulnerables = pd.read_sql_query("SELECT id, SUM(analisisServiviosInseguros + analisisVulnerabilidades) as numero_vulnerabilidades FROM DEVICES GROUP BY id ORDER BY numero_vulnerabilidades ",con)
 vulnerabilidades = dispositivos_vulnerables['numero_vulnerabilidades'].tolist()
+print(vulnerabilidades)
 etiquetas = dispositivos_vulnerables['id'].tolist()
 plt.pie(vulnerabilidades, labels=etiquetas, colors=['red', 'blue', 'pink', 'green', 'yellow', 'purple', 'gray'], autopct='%1.1f%%')
 plt.axis('equal')
