@@ -380,40 +380,14 @@
             <script>
               // Load initial plot
               var graphDataIP = {{ graphIPJSON | safe }};
-              Plotly.newPlot('chartIP', graphDataIP, {}, {
-                displayModeBar: true,
-                displaylogo: false,
-                modeBarButtonsToRemove: [
-                  'zoom2d',
-                  'toggleSpikelines',
-                  'pan2d',
-                  'select2d',
-                  'lasso2d',
-                  'autoScale2d',
-                  'hoverClosestCartesian',
-                  'hoverCompareCartesian'
-                ]
-              });
+              Plotly.newPlot('chartIP', graphDataIP, {}, {displayModeBar: false});
 
               // Update plot on button click
               function updatePlotIP(quantityIP) {
                 var url = "/graphIP/" + quantityIP;
                 Plotly.d3.json(url, function(error, data) {
                   if (error) console.log(error);
-                  Plotly.react('chartIP', data, {}, {
-                    displayModeBar: true,
-                    displaylogo: false,
-                    modeBarButtonsToRemove: [
-                      'zoom2d',
-                      'toggleSpikelines',
-                      'pan2d',
-                      'select2d',
-                      'lasso2d',
-                      'autoScale2d',
-                      'hoverClosestCartesian',
-                      'hoverCompareCartesian'
-                    ]
-                  });
+                  Plotly.react('chartIP', data, {}, {displayModeBar: false});
                   document.getElementById('quantityIP').innerHTML = quantityIP;
                 });
               }
@@ -493,40 +467,14 @@
             <script>
               // Load initial plot
               var graphDataDevices = {{ graphDevicesJSON | safe }};
-              Plotly.newPlot('chartDevices', graphDataDevices, {}, {
-                displayModeBar: true,
-                displaylogo: false,
-                modeBarButtonsToRemove: [
-                  'zoom2d',
-                  'toggleSpikelines',
-                  'pan2d',
-                  'select2d',
-                  'lasso2d',
-                  'autoScale2d',
-                  'hoverClosestCartesian',
-                  'hoverCompareCartesian'
-                ]
-              });
+              Plotly.newPlot('chartDevices', graphDataDevices, {}, {displayModeBar: false});
 
               // Update plot on button click
               function updatePlotDevices(quantityDevices) {
                 var url = "/graphDevices/" + quantityDevices;
                 Plotly.d3.json(url, function(error, data) {
                   if (error) console.log(error);
-                  Plotly.react('chartDevices', data, {}, {
-                    displayModeBar: true,
-                    displaylogo: false,
-                    modeBarButtonsToRemove: [
-                      'zoom2d',
-                      'toggleSpikelines',
-                      'pan2d',
-                      'select2d',
-                      'lasso2d',
-                      'autoScale2d',
-                      'hoverClosestCartesian',
-                      'hoverCompareCartesian'
-                    ]
-                  });
+                  Plotly.react('chartDevices', data, {}, {displayModeBar: false});
                   document.getElementById('quantityDevices').innerHTML = quantityDevices;
                 });
               }

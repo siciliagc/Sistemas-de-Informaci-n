@@ -23,7 +23,8 @@ def index():
     # Get the JSON data for the initial graph
     graphIPJSON = graphIP(quantityIP)
     graphDevicesJSON = graphDevices(quantityDevices)
-    return render_template('index.html', graphIPJSON=graphIPJSON, quantityIP=quantityIP, graphDevicesJSON=graphDevicesJSON, quantityDevices=quantityDevices)
+    return render_template('index.html', graphIPJSON=graphIPJSON, quantityIP=quantityIP,
+                           graphDevicesJSON=graphDevicesJSON, quantityDevices=quantityDevices)
 
 
 @app.route('/graphIP/<int:quantity>')
@@ -35,19 +36,10 @@ def graphIP(quantity):
 
     fig = px.bar(ip_mas_problematicas_df.head(quantity), x='origen', y='numero_alertas', barmode='group',
                  labels=dict(origen="IP", numero_alertas="Número de alertas"))
-    config = {"displayModeBar": True,
-              "displaylogo": False,
-              'modeBarButtonsToRemove': [
-                  'zoom2d',
-                  'toggleSpikelines',
-                  'pan2d',
-                  'select2d',
-                  'lasso2d',
-                  'autoScale2d',
-                  'hoverClosestCartesian',
-                  'hoverCompareCartesian']}
+
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
+
 
 @app.route('/graphDevices/<int:quantity>')
 def graphDevices(quantity):
@@ -56,17 +48,7 @@ def graphDevices(quantity):
     dispositivos_vulnerables_df.sort_values(by=['numero_vulnerabilidades'], ascending=False, inplace=True)
     fig = px.bar(dispositivos_vulnerables_df.head(quantity), x='id', y='numero_vulnerabilidades', barmode='group',
                  labels=dict(id="Dispositivo", numero_vulnerabilidades="Número de vulnerabilidades"))
-    config = {"displayModeBar": True,
-              "displaylogo": False,
-              'modeBarButtonsToRemove': [
-                  'zoom2d',
-                  'toggleSpikelines',
-                  'pan2d',
-                  'select2d',
-                  'lasso2d',
-                  'autoScale2d',
-                  'hoverClosestCartesian',
-                  'hoverCompareCartesian']}
+    
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
