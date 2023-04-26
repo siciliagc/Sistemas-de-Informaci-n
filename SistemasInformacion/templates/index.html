@@ -396,11 +396,11 @@
               });
 
               // Update plot on button click
-              function updatePlotIP(quantity) {
-                var url = "/graphIP/" + quantity;
+              function updatePlotIP(quantityIP) {
+                var url = "/graphIP/" + quantityIP;
                 Plotly.d3.json(url, function(error, data) {
                   if (error) console.log(error);
-                  Plotly.react('chart', data, {}, {
+                  Plotly.react('chartIP', data, {}, {
                     displayModeBar: true,
                     displaylogo: false,
                     modeBarButtonsToRemove: [
@@ -414,7 +414,7 @@
                       'hoverCompareCartesian'
                     ]
                   });
-                  document.getElementById('quantityIP').innerHTML = quantity;
+                  document.getElementById('quantityIP').innerHTML = quantityIP;
                 });
               }
             </script>
@@ -482,9 +482,6 @@
                     </td>
                     <td class="w-30">
                       <button type="button" class="btn btn-secondary col-md-12" onclick="updatePlotDevices(5)">Top 5</button>
-                    </td>
-                    <td class="w-30">
-                      <button type="button" class="btn btn-secondary col-md-12" onclick="updatePlotDevices(10)">Top 10</button>
                     </td>
                   </tr>
                 </tbody>

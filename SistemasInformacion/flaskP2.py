@@ -19,7 +19,7 @@ devices_df = pd.read_sql_query(
 @app.route('/')
 def index():
     quantityIP = 10
-    quantityDevices = 10
+    quantityDevices = 5
     # Get the JSON data for the initial graph
     graphIPJSON = graphIP(quantityIP)
     graphDevicesJSON = graphDevices(quantityDevices)
