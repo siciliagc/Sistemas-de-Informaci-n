@@ -39,9 +39,9 @@ print(f"Número de alertas: {df_alerts['timestamp'].size}")
 # | 443         | NaN    | NaN     |
 
 # Función para obtener los puertos únicamente:
-##############
-# Ejercicio 3#
-##############
+###############
+# Ejercicio 3 #
+###############
 
 # Merge tables:
 alerts_devices = pd.read_sql_query("SELECT * FROM alerts JOIN devices ON (alerts.origen = devices.ip OR alerts.destino = devices.ip)", con)

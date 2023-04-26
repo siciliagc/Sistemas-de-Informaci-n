@@ -357,12 +357,11 @@
               <h6 class="text-capitalize">Top X IPs más peligrosas</h6>
               <p class="text-sm mb-0">
                 <i class="fa fa-arrow-up text-success"></i>
-                <span class="font-weight-bold">4% more</span> in 2021
+                <!--<span class="font-weight-bold">4% more</span> in 2021-->
               </p>
             </div>
             <div class="card-body p-3">
-              <div class="chart">
-                <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
+              <div id="chart" class="chart">
               </div>
             </div>
           </div>
@@ -734,6 +733,11 @@
   <script src="../static/assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../static/assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="../static/assets/js/plugins/chartjs.min.js"></script>
+  <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+  <script>
+    var graphs = {{graphJSON | safe}};
+    Plotly.plot('chart',graphs,{});
+  </script>
   <script>
     var ctx1 = document.getElementById("chart-line").getContext("2d");
 
