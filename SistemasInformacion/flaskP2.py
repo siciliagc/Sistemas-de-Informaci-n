@@ -5,6 +5,8 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly
+import requests
+import datetime
 
 app = Flask(__name__)
 
@@ -15,7 +17,6 @@ devices_df = pd.read_sql_query(
     "SELECT id, SUM(analisisServiviosInseguros + analisisVulnerabilidades) as numero_vulnerabilidades FROM DEVICES GROUP BY id ORDER BY numero_vulnerabilidades ",
     con)
 
-
 @app.route('/')
 def index():
     quantityIP = 10
@@ -23,8 +24,9 @@ def index():
     # Get the JSON data for the initial graph
     graphIPJSON = graphIP(quantityIP)
     graphDevicesJSON = graphDevices(quantityDevices)
+    vulnerabilityJSON = api()
     return render_template('index.html', graphIPJSON=graphIPJSON, quantityIP=quantityIP,
-                           graphDevicesJSON=graphDevicesJSON, quantityDevices=quantityDevices)
+                           graphDevicesJSON=graphDevicesJSON, quantityDevices=quantityDevices, vulnerabilities=vulnerabilityJSON)
 
 
 @app.route('/graphIP/<int:quantity>')
@@ -52,6 +54,29 @@ def graphDevices(quantity):
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
+def api():
+    # Hacer una solicitud a la API de cve-search para obtener las últimas 30 vulnerabilidades
+    response = requests.get("https://cve.circl.lu/api/last")
+
+    # Verificar que la solicitud se haya realizado con éxito (código de estado 200)
+    if response.status_code == 200:
+        # Obtener la respuesta en formato JSON
+        data = response.json()
+        # Ordenar los resultados por fecha de publicación (más reciente primero)
+        data_sorted = sorted(data, key=lambda x: x['Published'], reverse=True)
+        # Tomar solo los 10 primeros resultados
+        last_10_data = data_sorted[:10]
+        # Almacenar los datos en una lista de diccionarios
+        vulnerabilities = []
+        for i in range(10):
+            vulnerability = {}
+            vulnerability["id"] = last_10_data[i]["id"]
+            # Reformatear la fecha y agregarla al diccionario
+            fecha_publicacion = datetime.datetime.fromisoformat(last_10_data[i]["Published"])
+            vulnerability["fecha_publicacion"] = fecha_publicacion.strftime('%d-%m-%Y %H:%M')
+            vulnerability["url"] = f"https://cve.circl.lu/cve/{last_10_data[i]['id']}"
+            vulnerabilities.append(vulnerability)
+        return vulnerabilities
 
 if __name__ == '__main__':
     app.debug = True
