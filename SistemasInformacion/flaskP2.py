@@ -71,6 +71,7 @@ def api():
         for i in range(10):
             vulnerability = {}
             vulnerability["id"] = last_10_data[i]["id"]
+            vulnerability["summary"] = last_10_data[i]["summary"]
             # Reformatear la fecha y agregarla al diccionario
             fecha_publicacion = datetime.datetime.fromisoformat(last_10_data[i]["Published"])
             vulnerability["fecha_publicacion"] = fecha_publicacion.strftime('%d-%m-%Y %H:%M')
