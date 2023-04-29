@@ -1,7 +1,6 @@
 import json
 from flask import Flask, render_template, request
 import sqlite3
-import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly
