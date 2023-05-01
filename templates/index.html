@@ -595,8 +595,8 @@
                       // call the function to update the list of vulnerabilities on page load
                       updateVulnerabilities();
 
-                      // update the list of vulnerabilities every hour using setInterval
-                      setInterval(updateVulnerabilities, 3600000);
+                      // update the list of vulnerabilities every minute using setInterval
+                      setInterval(updateVulnerabilities, 60000);
                     });
                 </script>
             </div>
