@@ -31,6 +31,7 @@
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link href="../static/assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- CSS Files -->
   <link id="pagestyle" href="../static/assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
@@ -508,7 +509,7 @@
               <p>Última actualización: <span id="last-updated">{{last_updated_cve}}</span></p>
             </div>
             <div class="card-body p-3">
-                <ul class="list-group">
+                <ul class="list-group" id="vulnerabilities-list">
                     {% for vulnerability in vulnerabilities %}
                         <li class="list-group-item border-0 d-flex ps-0 mb-2 border-radius-lg">
                             <div class="d-flex align-items-baseline">
@@ -550,6 +551,53 @@
                             icon.classList.replace('ni-bold-right', 'ni-bold-down');
                         }
                     }
+                    // define a function to update the list of vulnerabilities
+                    $(document).ready(function() {
+                      function updateVulnerabilities() {
+                        $.get('/api/cve', function(data) {
+                          // update the list of vulnerabilities with the new data
+                          var vulnerabilitiesList = '';
+                          data[0].forEach(function(vulnerability) {
+                            vulnerabilitiesList += '<li class="list-group-item border-0 d-flex ps-0 mb-2 border-radius-lg">';
+                            vulnerabilitiesList += '<div class="d-flex align-items-baseline">';
+                            vulnerabilitiesList += '<div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">';
+                            vulnerabilitiesList += '<i class="ni ni-atom text-white opacity-10"></i>';
+                            vulnerabilitiesList += '</div>';
+                            vulnerabilitiesList += '</div>';
+                            vulnerabilitiesList += '<div class="d-flex align-items-center">';
+                            vulnerabilitiesList += '<div class="d-flex flex-column">';
+                            vulnerabilitiesList += '<h6 class="mb-1 text-dark text-sm">' + vulnerability['id'] + '</h6>';
+                            vulnerabilitiesList += '<span class="text-xs">';
+                            vulnerabilitiesList += '<span class="font-weight-bold date">' + vulnerability['fecha_publicacion'] + '</span>';
+                            vulnerabilitiesList += '</span>';
+                            vulnerabilitiesList += '<span class="text-xs">';
+                            vulnerabilitiesList += '<span id="description-' + vulnerability['id'] + '" class="collapse">' + vulnerability['summary'] + '</span>';
+                            vulnerabilitiesList += '</span>';
+                            vulnerabilitiesList += '</div>';
+                            vulnerabilitiesList += '</div>';
+                            vulnerabilitiesList += '<div class="d-flex justify-content-end">';
+                            vulnerabilitiesList += '<button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto cve-url-btn" onclick="window.open(\'' + vulnerability['url'] + '\', \'_blank\')">';
+                            vulnerabilitiesList += '<i class="ni ni-fat-add" aria-hidden="true"></i>';
+                            vulnerabilitiesList += '</button>';
+                            vulnerabilitiesList += '<button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto cve-description-btn" data-toggle="collapse" data-target="#description-' + vulnerability['id'] + '" onclick="toggleDescription(\'description-' + vulnerability['id'] + '\',this)">';
+                            vulnerabilitiesList += '<i class="ni ni-bold-right" aria-hidden="true"></i>';
+                            vulnerabilitiesList += '</button>';
+                            vulnerabilitiesList += '</div>';
+                            vulnerabilitiesList += '</li>';
+                          });
+                          $('#vulnerabilities-list').html(vulnerabilitiesList);
+
+                          // update the last updated timestamp
+                          $('#last-updated').text(data[1]);
+                        });
+                      }
+
+                      // call the function to update the list of vulnerabilities on page load
+                      updateVulnerabilities();
+
+                      // update the list of vulnerabilities every hour using setInterval
+                      setInterval(updateVulnerabilities, 3600000);
+                    });
                 </script>
             </div>
           </div>
@@ -655,7 +703,6 @@
   <!--   Core JS Files   -->
   <script src="../static/assets/js/core/popper.min.js"></script>
   <script src="../static/assets/js/core/bootstrap.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="../static/assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../static/assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="../static/assets/js/plugins/chartjs.min.js"></script>

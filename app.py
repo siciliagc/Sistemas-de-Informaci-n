@@ -1,11 +1,12 @@
 import json
-from flask import Flask, render_template, request
+from flask import Flask, render_template, jsonify
 import sqlite3
 import pandas as pd
 import plotly.express as px
 import plotly
 import requests
 import datetime
+from apscheduler.schedulers.background import BackgroundScheduler
 
 app = Flask(__name__)
 
@@ -15,6 +16,8 @@ df_alerts = pd.read_sql_query("SELECT * from alerts", con)
 devices_df = pd.read_sql_query(
     "SELECT id, SUM(analisisServiviosInseguros + analisisVulnerabilidades) as numero_vulnerabilidades FROM DEVICES GROUP BY id ORDER BY numero_vulnerabilidades ",
     con)
+vulnerabilities = []
+last_updated_cve = ""
 
 @app.route('/')
 def index():
@@ -23,10 +26,9 @@ def index():
     # Get the JSON data for the initial graph
     graphIPJSON = graphIP(quantityIP)
     graphDevicesJSON = graphDevices(quantityDevices)
-    vulnerabilityJSON, last_updated_cve = cve_api()
     return render_template('index.html', graphIPJSON=graphIPJSON, quantityIP=quantityIP,
                            graphDevicesJSON=graphDevicesJSON, quantityDevices=quantityDevices,
-                           vulnerabilities=vulnerabilityJSON, last_updated_cve=last_updated_cve)
+                           vulnerabilities=vulnerabilities, last_updated_cve=last_updated_cve)
 
 
 @app.route('/graphIP/<int:quantity>')
@@ -54,8 +56,10 @@ def graphDevices(quantity):
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
-@app.route('/api/cve')
-def cve_api():
+
+def vulnerabilities_cve():
+    global vulnerabilities
+    global last_updated_cve
     # Hacer una solicitud a la API de cve-search para obtener las últimas 30 vulnerabilidades
     response = requests.get("https://cve.circl.lu/api/last")
 
@@ -79,8 +83,19 @@ def cve_api():
             vulnerability["url"] = f"https://cve.circl.lu/cve/{last_10_data[i]['id']}"
             vulnerabilities.append(vulnerability)
         last_updated_cve = datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')
-        return vulnerabilities, last_updated_cve
+
+
+@app.route('/api/cve')
+def update_cve():
+    return jsonify(vulnerabilities, last_updated_cve)
 
 if __name__ == '__main__':
+    vulnerabilities_cve()
+    # Create a scheduler object
+    scheduler = BackgroundScheduler()
+    # Add a job to the scheduler to update the vulnerabilities every hour
+    scheduler.add_job(func=vulnerabilities_cve, trigger='interval', hours=1)
+    # Start the scheduler
+    scheduler.start()
     app.debug = True
     app.run()
