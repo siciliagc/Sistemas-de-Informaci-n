@@ -23,7 +23,7 @@ def index():
     # Get the JSON data for the initial graph
     graphIPJSON = graphIP(quantityIP)
     graphDevicesJSON = graphDevices(quantityDevices)
-    vulnerabilityJSON, last_updated_cve = api()
+    vulnerabilityJSON, last_updated_cve = cve_api()
     return render_template('index.html', graphIPJSON=graphIPJSON, quantityIP=quantityIP,
                            graphDevicesJSON=graphDevicesJSON, quantityDevices=quantityDevices,
                            vulnerabilities=vulnerabilityJSON, last_updated_cve=last_updated_cve)
@@ -54,7 +54,8 @@ def graphDevices(quantity):
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
-def api():
+@app.route('/api/cve')
+def cve_api():
     # Hacer una solicitud a la API de cve-search para obtener las últimas 30 vulnerabilidades
     response = requests.get("https://cve.circl.lu/api/last")
 
