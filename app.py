@@ -23,9 +23,10 @@ def index():
     # Get the JSON data for the initial graph
     graphIPJSON = graphIP(quantityIP)
     graphDevicesJSON = graphDevices(quantityDevices)
-    vulnerabilityJSON = api()
+    vulnerabilityJSON, last_updated_cve = api()
     return render_template('index.html', graphIPJSON=graphIPJSON, quantityIP=quantityIP,
-                           graphDevicesJSON=graphDevicesJSON, quantityDevices=quantityDevices, vulnerabilities=vulnerabilityJSON)
+                           graphDevicesJSON=graphDevicesJSON, quantityDevices=quantityDevices,
+                           vulnerabilities=vulnerabilityJSON, last_updated_cve=last_updated_cve)
 
 
 @app.route('/graphIP/<int:quantity>')
@@ -76,7 +77,8 @@ def api():
             vulnerability["fecha_publicacion"] = fecha_publicacion.strftime('%d-%m-%Y %H:%M')
             vulnerability["url"] = f"https://cve.circl.lu/cve/{last_10_data[i]['id']}"
             vulnerabilities.append(vulnerability)
-        return vulnerabilities
+        last_updated_cve = datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+        return vulnerabilities, last_updated_cve
 
 if __name__ == '__main__':
     app.debug = True
