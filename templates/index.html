@@ -31,9 +31,28 @@
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link href="../static/assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- CSS Files -->
   <link id="pagestyle" href="../static/assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+
+  <script>
+    var contador = 0;
+    if (localStorage.getItem("contador")) {
+        contador = localStorage.getItem("contador");
+    }
+    setInterval(function() {
+        var now = new Date();
+        if (now.getHours() === 0 && now.getMinutes() === 0 && now.getSeconds() === 0) {
+            contador = 0;
+            localStorage.setItem("contador", contador);
+        }
+    }, 1000);
+    contador++;
+    localStorage.setItem("contador", contador);
+</script>
+
+
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
@@ -141,7 +160,7 @@
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
           </ol>
-          <h6 class="font-weight-bolder text-white mb-0">Dashboard</h6>
+          <h6 class="font-weight-bolder text-white mb-0">Práctica II Sistemas de Información</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -188,7 +207,7 @@
                         </h6>
                         <p class="text-xs text-secondary mb-0">
                           <i class="fa fa-clock me-1"></i>
-                          13 minutes ago
+                          13 minutes 
                         </p>
                       </div>
                     </div>
@@ -257,19 +276,19 @@
               <div class="row">
                 <div class="col-8">
                   <div class="numbers">
-                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Money</p>
+                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Data base info</p>
                     <h5 class="font-weight-bolder">
-                      $53,000
+                      200.232
                     </h5>
                     <p class="mb-0">
-                      <span class="text-success text-sm font-weight-bolder">+55%</span>
-                      since yesterday
+                      <span class="text-success text-sm font-weight-bolder">DB</span>
+                      alerts + devices
                     </p>
                   </div>
                 </div>
                 <div class="col-4 text-end">
                   <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                    <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                    <i class="ni ni-collection text-lg opacity-10" aria-hidden="true"></i>
                   </div>
                 </div>
               </div>
@@ -284,17 +303,18 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Users</p>
                     <h5 class="font-weight-bolder">
-                      2,300
+                      <span id="contador"></span>
+
                     </h5>
                     <p class="mb-0">
-                      <span class="text-success text-sm font-weight-bolder">+3%</span>
-                      since last week
+                      <span class="text-success text-sm font-weight-bolder">web</span>
+                      page loads
                     </p>
                   </div>
                 </div>
                 <div class="col-4 text-end">
                   <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
-                    <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                    <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
                   </div>
                 </div>
               </div>
@@ -399,34 +419,34 @@
           <div class="card card-carousel overflow-hidden h-100 p-0">
             <div id="carouselExampleCaptions" class="carousel slide h-100" data-bs-ride="carousel">
               <div class="carousel-inner border-radius-lg h-100">
-                <div class="carousel-item h-100 active" style="background-image: url('../static/assets/img/carousel-1.jpg');
+                <!--<div class="carousel-item h-100 active" style="background-image: url('../static/assets/img/image1owasp.png');
       background-size: cover;">
                   <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
                     <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
                       <i class="ni ni-camera-compact text-dark opacity-10"></i>
                     </div>
-                    <h5 class="text-white mb-1">Get started with Argon</h5>
-                    <p>There’s nothing I really wanted to do in life that I wasn’t able to get good at.</p>
+                    <h5 class="text-black mb-1">OWASP TOP 10, 2017</h5>
                   </div>
-                </div>
-                <div class="carousel-item h-100" style="background-image: url('../static/assets/img/carousel-2.jpg');
+                </div> -->
+                <iframe class="carousel-item h-100 active" width="341" height="344" src="https://cybermap.kaspersky.com/es/widget/dynamic/dark" frameborder="0"></iframe>
+
+
+                <div class="carousel-item h-100" style="background-image: url('../static/assets/img/image2owasp.png');
       background-size: cover;">
                   <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
                     <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
                       <i class="ni ni-bulb-61 text-dark opacity-10"></i>
                     </div>
-                    <h5 class="text-white mb-1">Faster way to create web pages</h5>
-                    <p>That’s my skill. I’m not really specifically talented at anything except for the ability to learn.</p>
+                    <h5 class="text-black mb-1">OWASP TOP 10, 2021</h5>
                   </div>
                 </div>
-                <div class="carousel-item h-100" style="background-image: url('../static/assets/img/carousel-3.jpg');
+                <div class="carousel-item h-100" style="background-image: url('../static/assets/img/urjc-logo.jpg');
       background-size: cover;">
                   <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
                     <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
                       <i class="ni ni-trophy text-dark opacity-10"></i>
                     </div>
-                    <h5 class="text-white mb-1">Share with us your design tips!</h5>
-                    <p>Don’t be afraid to be wrong because you can’t learn anything from a compliment.</p>
+                    <h5 class="text-black mb-1">Universidad Rey Juan Carlos</h5>
                   </div>
                 </div>
               </div>
@@ -486,9 +506,10 @@
           <div class="card">
             <div class="card-header pb-0 p-3">
               <h6 class="mb-0">Vulnerabilidades más recientes</h6>
+              <p>Última actualización: <span id="last-updated">{{last_updated_cve}}</span></p>
             </div>
             <div class="card-body p-3">
-                <ul class="list-group">
+                <ul class="list-group" id="vulnerabilities-list">
                     {% for vulnerability in vulnerabilities %}
                         <li class="list-group-item border-0 d-flex ps-0 mb-2 border-radius-lg">
                             <div class="d-flex align-items-baseline">
@@ -530,6 +551,53 @@
                             icon.classList.replace('ni-bold-right', 'ni-bold-down');
                         }
                     }
+                    // define a function to update the list of vulnerabilities
+                    $(document).ready(function() {
+                      function updateVulnerabilities() {
+                        $.get('/api/cve', function(data) {
+                          // update the list of vulnerabilities with the new data
+                          var vulnerabilitiesList = '';
+                          data[0].forEach(function(vulnerability) {
+                            vulnerabilitiesList += '<li class="list-group-item border-0 d-flex ps-0 mb-2 border-radius-lg">';
+                            vulnerabilitiesList += '<div class="d-flex align-items-baseline">';
+                            vulnerabilitiesList += '<div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">';
+                            vulnerabilitiesList += '<i class="ni ni-atom text-white opacity-10"></i>';
+                            vulnerabilitiesList += '</div>';
+                            vulnerabilitiesList += '</div>';
+                            vulnerabilitiesList += '<div class="d-flex align-items-center">';
+                            vulnerabilitiesList += '<div class="d-flex flex-column">';
+                            vulnerabilitiesList += '<h6 class="mb-1 text-dark text-sm">' + vulnerability['id'] + '</h6>';
+                            vulnerabilitiesList += '<span class="text-xs">';
+                            vulnerabilitiesList += '<span class="font-weight-bold date">' + vulnerability['fecha_publicacion'] + '</span>';
+                            vulnerabilitiesList += '</span>';
+                            vulnerabilitiesList += '<span class="text-xs">';
+                            vulnerabilitiesList += '<span id="description-' + vulnerability['id'] + '" class="collapse">' + vulnerability['summary'] + '</span>';
+                            vulnerabilitiesList += '</span>';
+                            vulnerabilitiesList += '</div>';
+                            vulnerabilitiesList += '</div>';
+                            vulnerabilitiesList += '<div class="d-flex justify-content-end">';
+                            vulnerabilitiesList += '<button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto cve-url-btn" onclick="window.open(\'' + vulnerability['url'] + '\', \'_blank\')">';
+                            vulnerabilitiesList += '<i class="ni ni-fat-add" aria-hidden="true"></i>';
+                            vulnerabilitiesList += '</button>';
+                            vulnerabilitiesList += '<button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto cve-description-btn" data-toggle="collapse" data-target="#description-' + vulnerability['id'] + '" onclick="toggleDescription(\'description-' + vulnerability['id'] + '\',this)">';
+                            vulnerabilitiesList += '<i class="ni ni-bold-right" aria-hidden="true"></i>';
+                            vulnerabilitiesList += '</button>';
+                            vulnerabilitiesList += '</div>';
+                            vulnerabilitiesList += '</li>';
+                          });
+                          $('#vulnerabilities-list').html(vulnerabilitiesList);
+
+                          // update the last updated timestamp
+                          $('#last-updated').text(data[1]);
+                        });
+                      }
+
+                      // call the function to update the list of vulnerabilities on page load
+                      updateVulnerabilities();
+
+                      // update the list of vulnerabilities every minute using setInterval
+                      setInterval(updateVulnerabilities, 60000);
+                    });
                 </script>
             </div>
           </div>
@@ -544,23 +612,17 @@
                   document.write(new Date().getFullYear())
                 </script>,
                 made with <i class="fa fa-heart"></i> by
-                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
-                for a better web.
+                <a href="https://github.com/yisusrg05/Sistemas-de-Informacion" class="font-weight-bold" target="_blank">Sicilianos</a>
+                to obtain a good grade.
               </div>
             </div>
             <div class="col-lg-6">
               <ul class="nav nav-footer justify-content-center justify-content-lg-end">
                 <li class="nav-item">
-                  <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
+                  <a href="https://github.com/yisusrg05/Sistemas-de-Informacion" class="nav-link text-muted" target="_blank">Sicilianos's GitHub</a>
                 </li>
                 <li class="nav-item">
-                  <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
+                  <a href="https://www.urjc.es/" class="nav-link text-muted" target="_blank">URJC</a>
                 </li>
               </ul>
             </div>
@@ -570,9 +632,6 @@
     </div>
   </main>
   <div class="fixed-plugin">
-    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
-      <i class="fa fa-cog py-2"> </i>
-    </a>
     <div class="card shadow-lg">
       <div class="card-header pb-0 pt-3 ">
         <div class="float-start">
@@ -644,7 +703,6 @@
   <!--   Core JS Files   -->
   <script src="../static/assets/js/core/popper.min.js"></script>
   <script src="../static/assets/js/core/bootstrap.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="../static/assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../static/assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="../static/assets/js/plugins/chartjs.min.js"></script>
@@ -744,6 +802,11 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../static/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+
+  <script>
+    document.getElementById("contador").innerHTML = localStorage.getItem("contador");
+  </script>
+
 </body>
 
 </html>
