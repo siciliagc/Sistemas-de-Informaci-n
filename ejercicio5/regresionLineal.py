@@ -2,37 +2,53 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn import datasets, linear_model
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
 import json
 
 # Load dataset:
-with open(r'C:\Users\sicil\OneDrive\Documentos\GitHub\Sistemas-de-Informacion\Data\devices_IA_clases.json') as f:
-    train = json.load(f)
-with open(r'C:\Users\sicil\OneDrive\Documentos\GitHub\Sistemas-de-Informacion\Data\devices_IA_predecir_v2.json') as f:
-    test = json.load(f)
+with open(r'..\Data\devices_IA_clases.json') as f:
+    train_data = json.load(f)
+with open(r'..\Data\devices_IA_predecir_v2.json') as f:
+    test_data = json.load(f)
 
-df_entrenamiento = pd.DataFrame(train)
-df_predecir = pd.DataFrame(test)
 
-X = df_entrenamiento[['servicios_inseguros']]
-y = pd.Series(df_entrenamiento['peligroso']).astype(int).apply(lambda x: 1 if x > 0 else 0)
+# Extract the "servicios" feature from the training data
+train_X = [] #[[d['servicios']] for d in train_data]
+train_y = []
+test_X = []
+test_y = []
+for i in train_data:
+    if(i['servicios']==0):
+        continue
+    train_X.append([i['servicios_inseguros']/i['servicios']])
+    train_y.append(i['peligroso'])
 
-modelo = linear_model.LinearRegression()
-modelo.fit(X, y)
+for i in test_data:
+    if(i['servicios']==0):
+        continue
+    test_X.append([i['servicios_inseguros']/i['servicios']])
+    test_y.append(i['peligroso'])
 
-plt.scatter(X, y)
-plt.plot(X, modelo.predict(X), color='red')
-plt.xlabel('Servicios inseguros')
-plt.ylabel('Peligroso')
+# Split the data into training and testing sets
+# train_X, test_X, train_y, test_y = train_test_split(train_X, train_y, test_size=0.2, random_state=42)
+
+# Create linear regression object
+regr = linear_model.LinearRegression()
+
+# Train the model using the training sets
+regr.fit(train_X, train_y)
+
+# Make predictions using the testing set
+test_y_pred = regr.predict(test_X)
+
+# The mean squared error
+print("Mean squared error: %.2f" % mean_squared_error(test_y, test_y_pred))
+print(str(test_X))
+print(str(test_y))
+# Plot outputs
+plt.scatter(test_X, test_y, color="black")
+plt.plot(test_X, test_y_pred, color="blue", linewidth=3)
+plt.xticks(())
+plt.yticks(())
 plt.show()
-
-X_predecir = df_predecir[['servicios_inseguros']].astype(int)
-predicciones = modelo.predict(X_predecir).round().astype(int)
-
-df_predecir['peligroso'] = pd.Series(predicciones).apply(lambda x: 1 if x > 0 else 0)
-
-num_peligrosos = df_predecir['peligroso'].sum()
-
-predecir_con_predicciones = df_predecir.to_dict(orient='records')
-with open(r'C:\Users\sicil\OneDrive\Documentos\GitHub\Sistemas-de-Informacion\Data\devices_IA_predecir_v2.json', 'w') as f:
-    json.dump(predecir_con_predicciones, f)
