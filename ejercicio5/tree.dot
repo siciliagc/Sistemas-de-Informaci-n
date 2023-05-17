@@ -1,13 +1,17 @@
 digraph Tree {
 node [shape=box, style="filled, rounded", color="black", fontname="helvetica"] ;
 edge [fontname="helvetica"] ;
-0 [label="servicios_inseguros/servicios <= 0.3\ngini = 0.29\nsamples = 19\nvalue = [6, 28]\nclass = Peligroso", fillcolor="#63b2eb"] ;
-1 [label="servicios_inseguros/servicios <= 0.12\ngini = 0.48\nsamples = 5\nvalue = [6, 4]\nclass = No Peligroso", fillcolor="#f6d5bd"] ;
+0 [label="servicios <= 27.5\ngini = 0.29\nsamples = 19\nvalue = [6, 28]\nclass = Peligroso", fillcolor="#63b2eb"] ;
+1 [label="servicios_inseguros <= 0.5\ngini = 0.22\nsamples = 17\nvalue = [4, 27]\nclass = Peligroso", fillcolor="#56ace9"] ;
 0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
 2 [label="gini = 0.49\nsamples = 3\nvalue = [3, 4]\nclass = Peligroso", fillcolor="#cee6f8"] ;
 1 -> 2 ;
-3 [label="gini = 0.0\nsamples = 2\nvalue = [3, 0]\nclass = No Peligroso", fillcolor="#e58139"] ;
+3 [label="gini = 0.08\nsamples = 14\nvalue = [1, 23]\nclass = Peligroso", fillcolor="#42a1e6"] ;
 1 -> 3 ;
-4 [label="gini = 0.0\nsamples = 14\nvalue = [0, 24]\nclass = Peligroso", fillcolor="#399de5"] ;
+4 [label="servicios_inseguros <= 18.5\ngini = 0.44\nsamples = 2\nvalue = [2, 1]\nclass = No peligroso", fillcolor="#f2c09c"] ;
 0 -> 4 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+5 [label="gini = 0.0\nsamples = 1\nvalue = [2, 0]\nclass = No peligroso", fillcolor="#e58139"] ;
+4 -> 5 ;
+6 [label="gini = 0.0\nsamples = 1\nvalue = [0, 1]\nclass = Peligroso", fillcolor="#399de5"] ;
+4 -> 6 ;
 }
