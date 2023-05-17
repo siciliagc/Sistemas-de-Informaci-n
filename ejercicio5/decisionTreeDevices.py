@@ -47,6 +47,7 @@ train_y = []
 test_X = []
 test_y = []
 id = []
+
 train_path = r'..\Data\devices_IA_clases.json'
 test_path = r'..\Data\devices_IA_predecir_v2.json'
 
@@ -63,3 +64,14 @@ graph = graphviz.Source(dot_data)
 graph.render('test.gv', view=True).replace('\\', '/')
 graph.format='png'
 test_y, id = predict(test_path, clf, test_X)
+
+count = 0
+dispositivos_peligrosos = []
+for i in range(len(test_y)):
+    if test_y[i] == 1:
+        count += 1
+        dispositivos_peligrosos.append(id[i])
+
+print("Número de dispositivos peligrosos: ", count)
+print("Se muestran a continuación la lista de dispositivos peligrosos: ", end=" ")
+print(dispositivos_peligrosos)

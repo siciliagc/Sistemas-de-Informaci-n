@@ -20,7 +20,7 @@ edge [fontname="helvetica"] ;
 6 -> 8 ;
 9 [label=<servicios &le; 7.0<br/>gini = 0.375<br/>samples = 4<br/>value = [3, 1]<br/>class = No Peligroso>, fillcolor="#eeab7b"] ;
 8 -> 9 ;
-10 [label=<servicios_inseguros &le; 1.5<br/>gini = 0.5<br/>samples = 2<br/>value = [1, 1]<br/>class = No Peligroso>, fillcolor="#ffffff"] ;
+10 [label=<servicios &le; 4.5<br/>gini = 0.5<br/>samples = 2<br/>value = [1, 1]<br/>class = No Peligroso>, fillcolor="#ffffff"] ;
 9 -> 10 ;
 11 [label=<gini = 0.0<br/>samples = 1<br/>value = [1, 0]<br/>class = No Peligroso>, fillcolor="#e58139"] ;
 10 -> 11 ;
