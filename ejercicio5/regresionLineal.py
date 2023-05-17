@@ -5,6 +5,8 @@ from sklearn import datasets, linear_model
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
 import json
+from tqdm import tqdm
+from time import sleep
 
 # Load dataset:
 with open(r'..\Data\devices_IA_clases.json') as f:
@@ -47,6 +49,8 @@ print("Mean squared error: %.2f" % mean_squared_error(test_y, test_y_pred))
 print(str(test_X))
 print(str(test_y))
 # Plot outputs
+for j in tqdm(range(1)):
+    sleep(0.2)
 plt.scatter(test_X, test_y, color="black")
 plt.plot(test_X, test_y_pred, color="blue", linewidth=3)
 plt.xticks(())

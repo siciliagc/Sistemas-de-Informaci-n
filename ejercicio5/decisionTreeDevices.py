@@ -11,7 +11,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score, accuracy_score
 from sklearn.tree import export_graphviz
-
+from tqdm import tqdm
+from time import sleep
 
 #######################
 ###### LOAD DATA ######
@@ -64,7 +65,8 @@ graph = graphviz.Source(dot_data)
 graph.render('test.gv', view=True).replace('\\', '/')
 graph.format='png'
 test_y, id = predict(test_path, clf, test_X)
-
+for j in tqdm(range(1)):
+    sleep(0.2)
 count = 0
 dispositivos_peligrosos = []
 for i in range(len(test_y)):
