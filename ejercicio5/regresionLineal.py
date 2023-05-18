@@ -45,12 +45,14 @@ regr.fit(train_X, train_y)
 test_y_pred = regr.predict(test_X)
 
 # The mean squared error
-print("Mean squared error: %.2f" % mean_squared_error(test_y, test_y_pred))
-print(str(test_X))
-print(str(test_y))
+
 # Plot outputs
 for j in tqdm(range(1)):
     sleep(0.2)
+
+print("Mean squared error: %.2f" % mean_squared_error(test_y, test_y_pred))
+print("Predicción del número de dispositivos peligrosos", sum(test_y_pred))
+
 plt.scatter(test_X, test_y, color="black")
 plt.plot(test_X, test_y_pred, color="blue", linewidth=3)
 plt.xticks(())

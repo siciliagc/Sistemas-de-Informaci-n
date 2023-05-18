@@ -49,8 +49,10 @@ for i in train_data:
 clf = RandomForestClassifier(max_depth=2, random_state=0, n_estimators=10)
 clf.fit(train_X, train_y)
 print(clf.predict(train_X))
+
 for j in tqdm(clf.estimators_):
     sleep(0.2)
+
 for i in range(len(clf.estimators_)):
     print(i)
     estimator = clf.estimators_[i]

@@ -14,19 +14,6 @@ from sklearn.tree import export_graphviz
 from tqdm import tqdm
 from time import sleep
 
-#######################
-###### LOAD DATA ######
-#######################
-
-def load_train_data(data, train_X, train_y):
-    with open(data) as f:
-        train_data = json.load(f)
-        for i in train_data:
-            if (i['servicios'] == 0):
-                continue
-            train_X.append([i['servicios'], i['servicios_inseguros'], ])
-            train_y.append(i['peligroso'])
-
 
 def predict(test_data, tree, test_X):
     with open(test_data) as f:
@@ -41,7 +28,9 @@ def predict(test_data, tree, test_X):
     return test_y, id
 
 
-# Main prog:
+#######################
+###### MAIN PROG ######
+#######################
 
 train_X = []
 train_y = []
@@ -52,7 +41,19 @@ id = []
 train_path = r'..\Data\devices_IA_clases.json'
 test_path = r'..\Data\devices_IA_predecir_v2.json'
 
-load_train_data(train_path, train_X, train_y)
+#######################
+###### LOAD DATA ######
+#######################
+
+
+with open(train_path) as f:
+    train_data = json.load(f)
+for i in train_data:
+    if (i['servicios'] == 0):
+        continue
+    train_X.append([i['servicios'], i['servicios_inseguros'], ])
+    train_y.append(i['peligroso'])
+
 clf = tree.DecisionTreeClassifier()
 clf = clf.fit(train_X, train_y)
 
