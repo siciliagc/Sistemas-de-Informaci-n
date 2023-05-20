@@ -1,4 +1,5 @@
 import json
+import tempfile
 from flask import Flask, render_template, jsonify, make_response
 import sqlite3
 import pandas as pd
@@ -7,9 +8,9 @@ import plotly
 import requests
 import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
-import pdfkit
 import plotly.io as pio
-import plotly.offline as plot
+import os
+from flask_weasyprint import HTML, render_pdf
 
 app = Flask(__name__)
 
@@ -100,12 +101,14 @@ def graphIPpdf():
 
     fig = px.bar(ip_mas_problematicas_df.head(quantityIP), x='origen', y='numero_alertas', barmode='group',
                  labels=dict(origen="IP", numero_alertas="Número de alertas"))
-    # Plot the graph and save it as a static image file
-    graph_file = tempfile.NamedTemporaryFile(suffix='.png', delete=False)
-    plot(fig, filename=graph_file.name, include_plotlyjs=False)
-    graph_file.close()
+    # Save the graph as a static image file
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as graph_file:
+        pio.write_image(fig, graph_file.name, format='png', engine='orca')
 
-    return graph_file.name
+        graph_filepath = graph_file.name
+
+    # Return the path to the graph image file
+    return graph_filepath
 
 
 @app.route('/pdf')
@@ -119,15 +122,17 @@ def pdf():
     rendered_html = render_template('pdf.html', vulnerabilities=vulnerabilities,
                                     last_updated_cve=last_updated_cve, graph=graph, quantityIP=quantityIP)
 
-    # Generate the PDF from the rendered HTML using pdfkit
-    pdf_file = pdfkit.from_string(rendered_html, False,
-                                  configuration=pdfkit.configuration(
-                                      wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe'))
+    # Generate the PDF from the rendered HTML using
+    pdf_file = render_pdf(HTML(string=rendered_html))
 
     # Create a response object with PDF MIME type
     response = make_response(pdf_file)
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = 'attachment; filename=vulnerabilities.pdf'
+
+    # Delete the temporary graph file
+    # if 'graph' in locals():
+    #    os.remove(graph)
 
     return response
 
