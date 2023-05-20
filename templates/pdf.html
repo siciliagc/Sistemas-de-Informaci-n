@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Vulnerabilities PDF</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Latest Vulnerabilities</h1>
+    <p>Last Updated: {{ last_updated_cve }}</p>
+
+    {% for vulnerability in vulnerabilities %}
+        <h2>ID: {{ vulnerability['id'] }}</h2>
+        <p>Summary: {{ vulnerability['summary'] }}</p>
+        <p>Published: {{ vulnerability['fecha_publicacion'] }}</p>
+        <p>URL: <a href="{{ vulnerability['url'] }}">{{ vulnerability['url'] }}</a></p>
+        <hr>
+    {% endfor %}
+    <div>
+        <h1>Top {{ quantityIP }} IPs más Peligrosas</h1>
+        {{ graph | safe }}
+    </div>
+</body>
+</html>
