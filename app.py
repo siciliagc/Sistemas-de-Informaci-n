@@ -11,6 +11,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import plotly.io as pio
 import os
 from flask_weasyprint import HTML, render_pdf
+import kaleido
 
 app = Flask(__name__)
 
@@ -101,11 +102,26 @@ def graphIPpdf():
 
     fig = px.bar(ip_mas_problematicas_df.head(quantityIP), x='origen', y='numero_alertas', barmode='group',
                  labels=dict(origen="IP", numero_alertas="Número de alertas"))
-    # Save the graph as a static image file
-    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as graph_file:
-        pio.write_image(fig, graph_file.name, format='png', engine='orca')
+    # Save the graph as a static image file in the relative directory
+    graph_filename = f'graph_{os.getpid()}.png'
+    graph_filepath = os.path.join('static', 'assets', 'img', 'graphs', graph_filename)
+    pio.write_image(fig, graph_filepath, format='png', engine='kaleido')
 
-        graph_filepath = graph_file.name
+    # Return the path to the graph image file
+    return graph_filepath
+
+def graphDevicespdf():
+    global quantityDevices
+    dispositivos_vulnerables_df = devices_df.groupby('id')['numero_vulnerabilidades'].sum().reset_index(
+        name='numero_vulnerabilidades')
+    dispositivos_vulnerables_df.sort_values(by=['numero_vulnerabilidades'], ascending=False, inplace=True)
+    fig = px.bar(dispositivos_vulnerables_df.head(quantityDevices), x='id', y='numero_vulnerabilidades', barmode='group',
+                 labels=dict(id="Dispositivo", numero_vulnerabilidades="Número de vulnerabilidades"))
+
+    # Save the graph as a static image file in the relative directory
+    graph_filename = f'graph_{os.getpid()}.png'
+    graph_filepath = os.path.join('static', 'assets', 'img', 'graphs', graph_filename)
+    pio.write_image(fig, graph_filepath, format='png', engine='kaleido')
 
     # Return the path to the graph image file
     return graph_filepath
@@ -116,23 +132,27 @@ def pdf():
     vulnerabilities_cve()
 
     # Generate the graph
-    graph = graphIPpdf()
+    graph1 = graphIPpdf()
+    graph2 = graphDevicespdf()
 
     # Render the HTML template with the vulnerability information
-    rendered_html = render_template('pdf.html', vulnerabilities=vulnerabilities,
-                                    last_updated_cve=last_updated_cve, graph=graph, quantityIP=quantityIP)
+    rendered_html = render_template('pdf.html', vulnerabilities=vulnerabilities, last_updated_cve=last_updated_cve,
+                                    graphIP=graph1, quantityIP=quantityIP,
+                                    graphDevices=graph2, quantityDevices=quantityDevices)
 
     # Generate the PDF from the rendered HTML using
-    pdf_file = render_pdf(HTML(string=rendered_html))
+    pdf_file = render_pdf(HTML(string=rendered_html, base_url='.'))
+
+    # Delete the graphs images files
+    if graph1:
+        os.remove(graph1)
+    if graph2:
+        os.remove(graph2)
 
     # Create a response object with PDF MIME type
     response = make_response(pdf_file)
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = 'attachment; filename=vulnerabilities.pdf'
-
-    # Delete the temporary graph file
-    # if 'graph' in locals():
-    #    os.remove(graph)
 
     return response
 
@@ -145,7 +165,7 @@ def update_cve():
 if __name__ == '__main__':
     # Create a scheduler object
     scheduler = BackgroundScheduler()
-    # Add a job to the scheduler to update the vulnerabilities every hour
+    # Add a job to the scheduler to update the vulnerabilities every minute
     scheduler.add_job(func=vulnerabilities_cve, trigger='interval', minutes=1)
     # Start the scheduler
     scheduler.start()
