@@ -12,6 +12,7 @@ import plotly.io as pio
 import os
 from flask_weasyprint import HTML, render_pdf
 import kaleido
+import uuid
 
 app = Flask(__name__)
 
@@ -103,7 +104,7 @@ def graphIPpdf():
     fig = px.bar(ip_mas_problematicas_df.head(quantityIP), x='origen', y='numero_alertas', barmode='group',
                  labels=dict(origen="IP", numero_alertas="Número de alertas"))
     # Save the graph as a static image file in the relative directory
-    graph_filename = f'graph_{os.getpid()}.png'
+    graph_filename = f'graph_{str(uuid.uuid4())[:8]}.png'
     graph_filepath = os.path.join('static', 'assets', 'img', 'graphs', graph_filename)
     pio.write_image(fig, graph_filepath, format='png', engine='kaleido')
 
@@ -119,7 +120,7 @@ def graphDevicespdf():
                  labels=dict(id="Dispositivo", numero_vulnerabilidades="Número de vulnerabilidades"))
 
     # Save the graph as a static image file in the relative directory
-    graph_filename = f'graph_{os.getpid()}.png'
+    graph_filename = f'graph_{str(uuid.uuid4())[:8]}.png'
     graph_filepath = os.path.join('static', 'assets', 'img', 'graphs', graph_filename)
     pio.write_image(fig, graph_filepath, format='png', engine='kaleido')
 
