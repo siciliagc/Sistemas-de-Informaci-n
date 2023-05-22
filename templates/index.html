@@ -575,6 +575,104 @@
           </div>
         </div>
       </div>
+      <div class="row mt-4">
+        <div class="col-lg-7 mb-lg-0 mb-4">
+          <div class="card z-index-2 h-100">
+            <div class="card-header pb-0 pt-3 bg-transparent">
+              <table class="table align-items-center ">
+                <tbody>
+                  <tr>
+                    <td class="w-30">
+                      <h6 class="text-capitalize col-md-12">Top <span id="quantityDangerous">{{quantityDangerous}}</span> dispositivos más peligrosos</h6>
+                    </td>
+                    <td class="w-30">
+                      <button type="button" class="btn btn-secondary col-md-12" onclick="updatePlotDangerous(2)">Top 2</button>
+                    </td>
+                    <td class="w-30">
+                      <button type="button" class="btn btn-secondary col-md-12" onclick="updatePlotDangerous(3)">Top 3</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card-body p-3">
+              <div id="chartDangerous" class="chart"></div>
+            </div>
+            <script>
+              // Load initial plot
+              var graphDataDangerous = {{ graphDangerousJSON | safe }};
+              Plotly.newPlot('chartDangerous', graphDataDangerous, {}, {displayModeBar: false});
+
+              // Update plot on button click
+              function updatePlotDangerous(quantityDangerous) {
+                var url = "/graphDangerous/" + quantityDangerous;
+                Plotly.d3.json(url, function(error, data) {
+                  if (error) console.log(error);
+                  Plotly.react('chartDangerous', data, {}, {displayModeBar: false});
+                  document.getElementById('quantityDangerous').innerHTML = quantityDangerous;
+                });
+              }
+            </script>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="card">
+            <div class="card-header pb-0 p-3">
+              <h6 class="mb-0">Total de servicios seguros por dispositivo frente al total de servicios inseguros por dispositivo</h6>
+            </div>
+            <div class="card-body p-3">
+              <div id="chartTotalSecurity" class="chart"></div>
+            </div>
+            <script>
+              // Load initial plot
+              var graphDataTotalSecurity = {{ graphTotalSecurityJSON | safe }};
+              Plotly.newPlot('chartTotalSecurity', graphDataTotalSecurity, {}, {displayModeBar: false});
+
+            </script>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-lg-7 mb-lg-0 mb-4">
+          <div class="card z-index-2 h-100">
+            <div class="card-header pb-0 pt-3 bg-transparent">
+              <table class="table align-items-center ">
+                <tbody>
+                  <tr>
+                    <td class="w-30">
+                      <h6 class="text-capitalize col-md-12">Top <span id="quantitySecure">{{quantitySecure}}</span> dispositivos más seguros</h6>
+                    </td>
+                    <td class="w-30">
+                      <button type="button" class="btn btn-secondary col-md-12" onclick="updatePlotSecure(2)">Top 2</button>
+                    </td>
+                    <td class="w-30">
+                      <button type="button" class="btn btn-secondary col-md-12" onclick="updatePlotSecure(3)">Top 3</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card-body p-3">
+              <div id="chartSecure" class="chart"></div>
+            </div>
+            <script>
+              // Load initial plot
+              var graphDataSecure = {{ graphSecureJSON | safe }};
+              Plotly.newPlot('chartSecure', graphDataSecure, {}, {displayModeBar: false});
+
+              // Update plot on button click
+              function updatePlotSecure(quantitySecure) {
+                var url = "/graphSecure/" + quantitySecure;
+                Plotly.d3.json(url, function(error, data) {
+                  if (error) console.log(error);
+                  Plotly.react('chartSecure', data, {}, {displayModeBar: false});
+                  document.getElementById('quantitySecure').innerHTML = quantitySecure;
+                });
+              }
+            </script>
+          </div>
+        </div>
+      </div>
       <footer class="footer pt-3  ">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">
