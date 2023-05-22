@@ -10,6 +10,7 @@ async-generator==1.10
 async-timeout==4.0.2
 attrs==23.1.0
 backcall==0.2.0
+backports.zoneinfo==0.2.1
 beautifulsoup4==4.12.2
 bleach==6.0.0
 blinker==1.6.2
@@ -120,6 +121,8 @@ python-dotenv==1.0.0
 python-json-logger==2.0.7
 pytz==2023.3
 pytz-deprecation-shim==0.1.0.post0
+pywin32==306
+pywinpty==2.0.10
 PyYAML==6.0
 pyzmq==25.0.2
 qtconsole==5.4.2
