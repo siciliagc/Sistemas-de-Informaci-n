@@ -38,7 +38,7 @@ test_X = []
 test_y = []
 id = []
 
-train_path = r'..\Data\devices_IA_clases.json'
+train_path = r'..\devices_IA_clases.json'
 
 
 load_train_data(train_path,train_X, train_y)

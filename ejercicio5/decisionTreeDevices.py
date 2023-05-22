@@ -38,8 +38,8 @@ test_X = []
 test_y = []
 id = []
 
-train_path = r'..\Data\devices_IA_clases.json'
-test_path = r'..\Data\devices_IA_predecir_v2.json'
+train_path = r'..\devices_IA_clases.json'
+test_path = r'..\devices_IA_predecir_v2.json'
 
 #######################
 ###### LOAD DATA ######

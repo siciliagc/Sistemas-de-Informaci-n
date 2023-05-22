@@ -9,9 +9,9 @@ from tqdm import tqdm
 from time import sleep
 
 # Load dataset:
-with open(r'..\Data\devices_IA_clases.json') as f:
+with open(r'..\devices_IA_clases.json') as f:
     train_data = json.load(f)
-with open(r'..\Data\devices_IA_predecir_v2.json') as f:
+with open(r'..\devices_IA_predecir_v2.json') as f:
     test_data = json.load(f)
 
 
