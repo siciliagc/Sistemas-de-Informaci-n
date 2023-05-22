@@ -184,7 +184,7 @@ def vulnerabilities_cve():
         last_updated_cve = datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')
 
 
-def graphIPpdf():
+def graphIPPdf():
     global quantityIP
     ip_mas_problematicas_df = alerts_df[alerts_df['prioridad'] == 1]
     ip_mas_problematicas_df = ip_mas_problematicas_df.groupby('origen')['sid'].count().reset_index(
@@ -201,7 +201,7 @@ def graphIPpdf():
     # Return the path to the graph image file
     return graph_filepath
 
-def graphDevicespdf():
+def graphDevicesPdf():
     global quantityDevices
     dispositivos_vulnerables_df = devices_df.groupby('id')['numero_vulnerabilidades'].sum().reset_index(
         name='numero_vulnerabilidades')
@@ -217,7 +217,95 @@ def graphDevicespdf():
     # Return the path to the graph image file
     return graph_filepath
 
+def graphDangerousPdf():
+    global quantityDangerous
+    dispositivos_peligrosos_df = df_devices.loc[df_devices['analisisServiviosInseguros'] / df_devices[
+        'analisisServicios'] >= 0.33]
+    dispositivos_peligrosos_df.dropna(inplace=True)
+    dispositivos_peligrosos_df['ip_peligrosa'] = (dispositivos_peligrosos_df['analisisServiviosInseguros'] /
+                                                  dispositivos_peligrosos_df['analisisServicios']) * 100
+    dispositivos_peligrosos_df.sort_values(by=['ip_peligrosa'], ascending=False, inplace=True)
+    fig = px.pie(dispositivos_peligrosos_df.head(quantityDangerous), values='ip_peligrosa', names='id',
+                  title='El valor asociado a cada dispositivo el es porcentaje de servicios inseguros',
+                  hover_data=['ip_peligrosa'],
+                  labels={'ip_peligrosa': 'IP Peligrosa'},
+                  template='seaborn')
 
+    fig.update_traces(texttemplate='%{label}: %{value:.2f}', textposition='inside')
+    # Save the graph as a static image file in the relative directory
+    graph_filename = f'graph_{str(uuid.uuid4())[:8]}.png'
+    graph_filepath = os.path.join('static', 'assets', 'img', 'graphs', graph_filename)
+    pio.write_image(fig, graph_filepath, format='png', engine='kaleido')
+
+    # Return the path to the graph image file
+    return graph_filepath
+
+def graphSecurePdf():
+    global quantitySecure
+    dispositivos_no_peligrosos_df = df_devices.loc[df_devices['analisisServiviosInseguros'] / df_devices[
+        'analisisServicios'] < 0.33]
+    dispositivos_no_peligrosos_df.dropna(inplace=True)
+    dispositivos_no_peligrosos_df['ip_segura'] = (1 - (dispositivos_no_peligrosos_df['analisisServiviosInseguros'] /
+                                                       dispositivos_no_peligrosos_df['analisisServicios'])) * 100
+    dispositivos_no_peligrosos_df.sort_values(by=['ip_segura'], ascending=False, inplace=True)
+    fig = px.pie(dispositivos_no_peligrosos_df.head(quantitySecure), values='ip_segura', names='id',
+                  title='El valor asociado a cada dispositivo el es porcentaje de servicios seguros',
+                  hover_data=['ip_segura'],
+                  labels={'ip_segura': 'IP Segura'},
+                  template='seaborn')
+
+    fig.update_traces(texttemplate='%{label}: %{value:.2f}', textposition='inside')
+    # Save the graph as a static image file in the relative directory
+    graph_filename = f'graph_{str(uuid.uuid4())[:8]}.png'
+    graph_filepath = os.path.join('static', 'assets', 'img', 'graphs', graph_filename)
+    pio.write_image(fig, graph_filepath, format='png', engine='kaleido')
+
+    # Return the path to the graph image file
+    return graph_filepath
+
+def graphTotalSecurityPdf():
+    dispositivos_peligrosos_df = df_devices.loc[df_devices['analisisServiviosInseguros'] / df_devices[
+        'analisisServicios'] >= 0.33]
+    dispositivos_peligrosos_df.dropna(inplace=True)
+    dispositivos_peligrosos_df['ip_peligrosa'] = (dispositivos_peligrosos_df['analisisServiviosInseguros'] /
+                                                  dispositivos_peligrosos_df['analisisServicios']) * 100
+    dispositivos_peligrosos_df.sort_values(by=['ip_peligrosa'], ascending=False, inplace=True)
+    dispositivos_no_peligrosos_df = df_devices.loc[df_devices['analisisServiviosInseguros'] / df_devices[
+        'analisisServicios'] < 0.33]
+    dispositivos_no_peligrosos_df.dropna(inplace=True)
+    dispositivos_no_peligrosos_df['ip_segura'] = (1 - (dispositivos_no_peligrosos_df['analisisServiviosInseguros'] /
+                                                       dispositivos_no_peligrosos_df['analisisServicios'])) * 100
+    dispositivos_no_peligrosos_df.sort_values(by=['ip_segura'], ascending=False, inplace=True)
+    secure_services_df = dispositivos_no_peligrosos_df[['id', 'ip_segura']]
+    secure_services_df['Status'] = 'Secure'
+    unsecure_services_df = dispositivos_peligrosos_df[['id', 'ip_peligrosa']]
+    unsecure_services_df['Status'] = 'Unsecure'
+
+    # Rename the columns
+    secure_services_df = secure_services_df.rename(columns={'ip_segura': 'ip_security'})
+    unsecure_services_df = unsecure_services_df.rename(columns={'ip_peligrosa': 'ip_security'})
+
+    combined_df = pd.concat([secure_services_df, unsecure_services_df], ignore_index=True)
+
+    # Create the sunburst plot using Plotly Express
+    fig = px.sunburst(combined_df, path=['Status', 'id'], values='ip_security', color='Status', branchvalues='total')
+
+    fig.update_traces(
+        textinfo='label+percent entry',
+        hovertemplate='<b>%{id}</b><br>Status: %{label}<br>Value: %{value}'
+    )
+
+    fig.update_layout(
+        title='IP Security Status',
+        height=600
+    )
+    # Save the graph as a static image file in the relative directory
+    graph_filename = f'graph_{str(uuid.uuid4())[:8]}.png'
+    graph_filepath = os.path.join('static', 'assets', 'img', 'graphs', graph_filename)
+    pio.write_image(fig, graph_filepath, format='png', engine='kaleido')
+
+    # Return the path to the graph image file
+    return graph_filepath
 
 
 @app.route('/pdf')
@@ -225,13 +313,19 @@ def pdf():
     vulnerabilities_cve()
 
     # Generate the graph
-    graph1 = graphIPpdf()
-    graph2 = graphDevicespdf()
+    graph1 = graphIPPdf()
+    graph2 = graphDevicesPdf()
+    graph3 = graphDangerousPdf()
+    graph4 = graphSecurePdf()
+    graph5 = graphTotalSecurityPdf()
 
     # Render the HTML template with the vulnerability information
     rendered_html = render_template('pdf.html', vulnerabilities=vulnerabilities, last_updated_cve=last_updated_cve,
                                     graphIP=graph1, quantityIP=quantityIP,
-                                    graphDevices=graph2, quantityDevices=quantityDevices)
+                                    graphDevices=graph2, quantityDevices=quantityDevices,
+                                    graphDangerous=graph3, quantityDangerous=quantityDangerous,
+                                    graphSecure=graph4, quantitySecure=quantitySecure,
+                                    graphTotalSecurity=graph5)
 
     # Generate the PDF from the rendered HTML using
     pdf_file = render_pdf(HTML(string=rendered_html, base_url='.'))
@@ -241,11 +335,17 @@ def pdf():
         os.remove(graph1)
     if graph2:
         os.remove(graph2)
+    if graph3:
+        os.remove(graph3)
+    if graph4:
+        os.remove(graph4)
+    if graph5:
+        os.remove(graph5)
 
     # Create a response object with PDF MIME type
     response = make_response(pdf_file)
     response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'attachment; filename=vulnerabilities.pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=report.pdf'
 
     return response
 

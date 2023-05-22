@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>Vulnerabilities PDF</title>
+    <meta charset="utf-8" />
+    <title>Report PDF</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,23 +25,35 @@
     </style>
 </head>
 <body>
-    <h1>Latest Vulnerabilities</h1>
-    <p>Last Updated: {{ last_updated_cve }}</p>
+    <h1>Vulnerabilidades más recientes</h1>
+    <p>Última actualización: {{ last_updated_cve }}</p>
 
     {% for vulnerability in vulnerabilities %}
         <h2>ID: {{ vulnerability['id'] }}</h2>
-        <p>Summary: {{ vulnerability['summary'] }}</p>
-        <p>Published: {{ vulnerability['fecha_publicacion'] }}</p>
+        <p>Descripción: {{ vulnerability['summary'] }}</p>
+        <p>Fecha de publicación: {{ vulnerability['fecha_publicacion'] }}</p>
         <p>URL: <a href="{{ vulnerability['url'] }}">{{ vulnerability['url'] }}</a></p>
         <hr>
     {% endfor %}
     <div>
-        <h1>Top {{ quantityIP }} IPs mas peligrosas</h1>
-        <img src="{{ graphIP }}" alt="Graph" width="700" height="650">
+        <h1>Top {{ quantityIP }} IPs más peligrosas</h1>
+        <img src="{{ graphIP }}" alt="Graph1" width="600" height="650">
     </div>
     <div>
-        <h1>Top {{ quantityDevices }} dispositivos mas vulnerables</h1>
-        <img src="{{ graphDevices }}" alt="Graph" width="700" height="650">
+        <h1>Top {{ quantityDevices }} dispositivos más vulnerables</h1>
+        <img src="{{ graphDevices }}" alt="Graph2" width="600" height="650">
+    </div>
+    <div>
+        <h1>Top {{ quantityDangerous }} dispositivos más peligrosos</h1>
+        <img src="{{ graphDangerous }}" alt="Graph3" width="600" height="650">
+    </div>
+    <div>
+        <h1>Top {{ quantitySecure }} dispositivos más seguros</h1>
+        <img src="{{ graphSecure }}" alt="Graph4" width="600" height="650">
+    </div>
+    <div>
+        <h1>Total de servicios seguros por dispositivo frente al total de servicios inseguros por dispositivo</h1>
+        <img src="{{ graphTotalSecurity }}" alt="Graph5" width="600" height="650">
     </div>
 </body>
 </html>
